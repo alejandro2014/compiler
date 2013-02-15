@@ -1,12 +1,11 @@
 #include "test.h"
 
 void testCase() {
-	testOne();
-	testTwo();
+	IShouldIdentifyAPositiveInt();
+	IShouldIdentifyANegativeInt();
 }
 
-void testOne() {
-	//I have a text representing an integer
+void IShouldIdentifyAPositiveInt() {
 	char *integerText = "1234";
 	TOKEN *token = NULL;
 	
@@ -17,8 +16,15 @@ void testOne() {
 	printf("OK\n");
 }
 
-void testTwo() {
-	assert(2 == 2);
+void IShouldIdentifyANegativeInt() {
+	char *integerText = "-1234";
+	TOKEN *token = NULL;
+	
+	token = parse(integerText);
+	
+	printf("I should identify a negative int - ");
+	assert(token->type == TOKEN_INTEGER);
+	printf("OK\n");
 }
 
 TOKEN *parse(char *text) {

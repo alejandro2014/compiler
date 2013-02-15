@@ -13,8 +13,8 @@ typedef struct {
 } TOKEN;
 
 void testCase();
-void testOne();
-void testTwo();
+void IShouldIdentifyAPositiveInt();
+void IShouldIdentifyANegativeInt();
 TOKEN *parse(char *text);
 #endif
 

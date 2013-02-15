@@ -5,11 +5,15 @@
 #define STATUS_INITIAL 0
 #define STATUS_READ_DIGIT 1
 #define STATUS_GIVE_TOKEN 2
-#define STATUS_READ_T 3
-#define STATUS_READ_R 4
-#define STATUS_READ_U 5
-#define STATUS_READ_E 6
-#define STATUS_ERROR 7
+#define STATUS_READ_A 3
+#define STATUS_READ_E 4
+#define STATUS_READ_F 5
+#define STATUS_READ_L 6
+#define STATUS_READ_R 7
+#define STATUS_READ_S 8
+#define STATUS_READ_T 9
+#define STATUS_READ_U 10
+#define STATUS_ERROR 11
 
 int main(int argn, char *argv) {
 	testCase();
@@ -33,6 +37,7 @@ TOKEN *parse(char *text) {
 				if(currentChar > 0x29 && currentChar < 0x40) currentStatus = STATUS_READ_DIGIT;
 				else if(currentChar == '-') currentStatus = STATUS_READ_DIGIT;
 				else if(currentChar == 't') currentStatus = STATUS_READ_T;
+				else if(currentChar == 'f') currentStatus = STATUS_READ_F;
 				else currentStatus = STATUS_ERROR;
 				break;
 			
@@ -67,9 +72,34 @@ TOKEN *parse(char *text) {
 				}
 				else currentStatus = STATUS_ERROR;
 				break;
+			
+			case STATUS_READ_F:
+				if(currentChar == 'a') currentStatus = STATUS_READ_A;
+				else currentStatus = STATUS_ERROR;
+				break;
 				
+			case STATUS_READ_A:
+				if(currentChar == 'l') currentStatus = STATUS_READ_L;
+				else currentStatus = STATUS_ERROR;
+				break;
+				
+			case STATUS_READ_L:
+				if(currentChar == 's') currentStatus = STATUS_READ_S;
+				else currentStatus = STATUS_ERROR;
+				break;
+				
+			case STATUS_READ_S:
+				if(currentChar == 'e') currentStatus = STATUS_READ_E;
+				else currentStatus = STATUS_ERROR;
+				break;
+					
 			case STATUS_GIVE_TOKEN:
 				finish = 1;
+				break;
+				
+			case STATUS_ERROR:
+				finish = 1;
+				printf("Found error in the input text\n");
 				break;
 		}
 		

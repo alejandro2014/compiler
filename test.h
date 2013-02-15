@@ -10,5 +10,6 @@ void testCase();
 void IShouldIdentifyAPositiveInt();
 void IShouldIdentifyANegativeInt();
 void ItShouldIdentifyABooleanTrue();
+void ItShouldIdentifyABooleanFalse();
 #endif
 

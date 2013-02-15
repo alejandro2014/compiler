@@ -5,6 +5,7 @@ void testCase() {
 	IShouldIdentifyAPositiveInt();
 	IShouldIdentifyANegativeInt();
 	ItShouldIdentifyABooleanTrue();
+	ItShouldIdentifyABooleanFalse();
 }
 
 void IShouldIdentifyAPositiveInt() {
@@ -30,12 +31,24 @@ void IShouldIdentifyANegativeInt() {
 }
 
 void ItShouldIdentifyABooleanTrue() {
-	char *integerText = "true";
+	char *booleanText = "true";
 	TOKEN *token = NULL;
 	
-	token = parse(integerText);
+	token = parse(booleanText);
 	
 	printf("I should identify a boolean true - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
+}
+
+void ItShouldIdentifyABooleanFalse() {
+	char *booleanText = "false";
+	TOKEN *token = NULL;
+	
+	token = parse(booleanText);
+	
+	printf("I should identify a boolean false - ");
+	assert(token->type == TOKEN_BOOLEAN);
+	printf("OK\n");
+
 }

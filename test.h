@@ -6,15 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#define TOKEN_INTEGER 1
-
-typedef struct {
-	char type;
-} TOKEN;
-
 void testCase();
 void IShouldIdentifyAPositiveInt();
 void IShouldIdentifyANegativeInt();
-TOKEN *parse(char *text);
+void ItShouldIdentifyABooleanTrue();
 #endif
 

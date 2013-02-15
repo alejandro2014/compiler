@@ -1,8 +1,10 @@
 #include "test.h"
+#include "token.h"
 
 void testCase() {
 	IShouldIdentifyAPositiveInt();
 	IShouldIdentifyANegativeInt();
+	ItShouldIdentifyABooleanTrue();
 }
 
 void IShouldIdentifyAPositiveInt() {
@@ -27,10 +29,13 @@ void IShouldIdentifyANegativeInt() {
 	printf("OK\n");
 }
 
-TOKEN *parse(char *text) {
-	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
-	memset(token, 0, sizeof(TOKEN));
+void ItShouldIdentifyABooleanTrue() {
+	char *integerText = "true";
+	TOKEN *token = NULL;
 	
-	token->type = TOKEN_INTEGER;
-	return token;
+	token = parse(integerText);
+	
+	printf("I should identify a boolean true - ");
+	assert(token->type == TOKEN_BOOLEAN);
+	printf("OK\n");
 }

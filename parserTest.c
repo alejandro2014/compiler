@@ -1,4 +1,4 @@
-#include "test.h"
+#include "parserTest.h"
 
 extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 

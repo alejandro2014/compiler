@@ -13,5 +13,6 @@ void IShouldIdentifyAPositiveInt();
 void IShouldIdentifyANegativeInt();
 void ItShouldIdentifyABooleanTrue();
 void ItShouldIdentifyABooleanFalse();
+void itShouldIdentifyAString();
 #endif
 

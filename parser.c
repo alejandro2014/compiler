@@ -24,6 +24,7 @@ void addTransitions() {
 	addTransition(STATUS_INITIAL, '-', STATUS_READ_DIGIT, NULL);
 	addTransition(STATUS_INITIAL, 't', STATUS_READ_T, NULL);
 	addTransition(STATUS_INITIAL, 'f', STATUS_READ_F, NULL);
+	addTransition(STATUS_INITIAL, '\"', STATUS_READ_STRING, NULL);
 	
 	addTransition(STATUS_READ_T, 'r', STATUS_READ_R, NULL);
 	addTransition(STATUS_READ_R, 'u', STATUS_READ_U, NULL);
@@ -40,26 +41,34 @@ void addTransitions() {
 		
 	addTransition(STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
 	
-	for(i = 0; i < 256; i++) {
+	for(i = 0; i < 256; i++) 
 		addTransition(STATUS_GIVE_TOKEN, i, STATUS_GIVE_TOKEN, NULL);
-	}
+	
+	for(i = 0; i < 256; i++)
+		addTransition(STATUS_READ_STRING, i, STATUS_READ_STRING, NULL);
+	
+	addTransition(STATUS_READ_STRING, '\"', STATUS_GIVE_TOKEN, giveTokenString);
 }
+
 
 void giveTokenBoolean(int *finish, TOKEN *token) {
 	*finish = 1;
 	token->type = TOKEN_BOOLEAN;
-	printf("Given token boolean\n");
 }
 
 void giveTokenInt(int *finish, TOKEN *token) {
 	*finish = 1;
 	token->type = TOKEN_INTEGER;
-	printf("Given token integer\n");
 }
 
 void giveTokenError(int *finish, TOKEN *token) {
 	*finish = 1;
 	printf("Found error in the input text\n");
+}
+
+void giveTokenString(int *finish, TOKEN *token) {
+	*finish = 1;
+	token->type = TOKEN_STRING;
 }
 
 void addTransition(int currentStatus,

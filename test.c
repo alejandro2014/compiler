@@ -10,6 +10,7 @@ void testCase() {
 	IShouldIdentifyANegativeInt();
 	ItShouldIdentifyABooleanTrue();
 	ItShouldIdentifyABooleanFalse();
+	itShouldIdentifyAString();
 }
 
 void itShouldSetAProperTransition() {
@@ -63,3 +64,13 @@ void ItShouldIdentifyABooleanFalse() {
 	printf("OK\n");
 }
 
+void itShouldIdentifyAString() {
+	char *stringText = "\"A string is surrounded by double quotes\"";
+	TOKEN *token = NULL;
+	
+	token = parse(stringText);
+	
+	printf("I should identify a string - ");
+	assert(token->type == TOKEN_STRING);
+	printf("OK\n");
+}

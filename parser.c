@@ -1,16 +1,73 @@
 #include "parser.h"
 
-static TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
+TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
 void initializeTransitionsTable() {
-	//addTransition(STATUS_INITIAL, 0x29, STATUS_READ_DIGIT, NULL);
+	int i, j;
+	
+	for(i = 0; i < NUMBER_STATUS; i++) {
+		for(j = 0; j < NUMBER_CHARS; j++) {
+			transitionsTable[i][j].nextStatus = STATUS_ERROR;
+			transitionsTable[i][j].function = giveTokenError;
+		}
+	}
+	
+	addTransitions();
+}
+
+void addTransitions() {
+	int i;
+	
+	for(i = 0x30; i < 0x40; i++)
+		addTransition(STATUS_INITIAL, i, STATUS_READ_DIGIT, NULL);
+			
+	addTransition(STATUS_INITIAL, '-', STATUS_READ_DIGIT, NULL);
+	addTransition(STATUS_INITIAL, 't', STATUS_READ_T, NULL);
+	addTransition(STATUS_INITIAL, 'f', STATUS_READ_F, NULL);
+	
+	addTransition(STATUS_READ_T, 'r', STATUS_READ_R, NULL);
+	addTransition(STATUS_READ_R, 'u', STATUS_READ_U, NULL);
+	addTransition(STATUS_READ_U, 'e', STATUS_READ_E, NULL);
+	addTransition(STATUS_READ_F, 'a', STATUS_READ_A, NULL);
+	addTransition(STATUS_READ_A, 'l', STATUS_READ_L, NULL);
+	addTransition(STATUS_READ_L, 's', STATUS_READ_S, NULL);
+	addTransition(STATUS_READ_S, 'e', STATUS_READ_E, NULL);
+	
+	addTransition(STATUS_READ_E, 0x00, STATUS_GIVE_TOKEN, giveTokenBoolean);
+	
+	for(i = 0x30; i < 0x40; i++) 
+		addTransition(STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);
+		
+	addTransition(STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
+	
+	for(i = 0; i < 256; i++) {
+		addTransition(STATUS_GIVE_TOKEN, i, STATUS_GIVE_TOKEN, NULL);
+	}
+}
+
+void giveTokenBoolean(int *finish, TOKEN *token) {
+	*finish = 1;
+	token->type = TOKEN_BOOLEAN;
+	printf("Given token boolean\n");
+}
+
+void giveTokenInt(int *finish, TOKEN *token) {
+	*finish = 1;
+	token->type = TOKEN_INTEGER;
+	printf("Given token integer\n");
+}
+
+void giveTokenError(int *finish, TOKEN *token) {
+	*finish = 1;
+	printf("Found error in the input text\n");
 }
 
 void addTransition(int currentStatus,
 				   char charRead,
 				   int nextStatus,
-				   char *functionPointer) {
+				   functionTransition functionPointer) {
 	transitionsTable[currentStatus][charRead].nextStatus = nextStatus;
+	transitionsTable[currentStatus][charRead].function = functionPointer;
 }
 
 TOKEN *parse(char *text) {
@@ -25,77 +82,11 @@ TOKEN *parse(char *text) {
 	while(!finish) {
 		currentChar = *(text + offset);
 		
-		switch(currentStatus) {
-			case STATUS_INITIAL:
-				if(currentChar > 0x29 && currentChar < 0x40) currentStatus = STATUS_READ_DIGIT;
-				else if(currentChar == '-') currentStatus = STATUS_READ_DIGIT;
-				else if(currentChar == 't') currentStatus = STATUS_READ_T;
-				else if(currentChar == 'f') currentStatus = STATUS_READ_F;
-				else currentStatus = STATUS_ERROR;
-				break;
+		if(transitionsTable[currentStatus][currentChar].function != NULL)
+			(transitionsTable[currentStatus][currentChar].function)(&finish, token);
 			
-			case STATUS_READ_DIGIT:
-				if(currentChar > 0x29 && currentChar < 0x40) currentStatus = STATUS_READ_DIGIT;
-				else if(currentChar == 0x00) {
-					currentStatus = STATUS_GIVE_TOKEN;
-					token->type = TOKEN_INTEGER;
-				}
-				else currentStatus = STATUS_ERROR;
-				break;
-				
-			case STATUS_READ_T:
-				if(currentChar == 'r') currentStatus = STATUS_READ_R;
-				else currentStatus = STATUS_ERROR;
-				break;
-				
-			case STATUS_READ_R:
-				if(currentChar == 'u') currentStatus = STATUS_READ_U;
-				else currentStatus = STATUS_ERROR;
-				break;
+		currentStatus = transitionsTable[currentStatus][currentChar].nextStatus;
 			
-			case STATUS_READ_U:
-				if(currentChar == 'e') currentStatus = STATUS_READ_E;
-				else currentStatus = STATUS_ERROR;
-				break;
-				
-			case STATUS_READ_E:
-				if(currentChar == 0x00) {
-					currentStatus = STATUS_GIVE_TOKEN;
-					token->type = TOKEN_BOOLEAN;
-				}
-				else currentStatus = STATUS_ERROR;
-				break;
-			
-			case STATUS_READ_F:
-				if(currentChar == 'a') currentStatus = STATUS_READ_A;
-				else currentStatus = STATUS_ERROR;
-				break;
-				
-			case STATUS_READ_A:
-				if(currentChar == 'l') currentStatus = STATUS_READ_L;
-				else currentStatus = STATUS_ERROR;
-				break;
-				
-			case STATUS_READ_L:
-				if(currentChar == 's') currentStatus = STATUS_READ_S;
-				else currentStatus = STATUS_ERROR;
-				break;
-				
-			case STATUS_READ_S:
-				if(currentChar == 'e') currentStatus = STATUS_READ_E;
-				else currentStatus = STATUS_ERROR;
-				break;
-					
-			case STATUS_GIVE_TOKEN:
-				finish = 1;
-				break;
-				
-			case STATUS_ERROR:
-				finish = 1;
-				printf("Found error in the input text\n");
-				break;
-		}
-		
 		offset++;
 	}
 	

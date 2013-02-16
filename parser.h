@@ -9,7 +9,7 @@
 #define TOKEN_BOOLEAN 2
 
 #define NUMBER_CHARS 256
-#define NUMBER_STATUS 8
+#define NUMBER_STATUS 12
 
 #define STATUS_INITIAL 0
 #define STATUS_READ_DIGIT 1
@@ -24,18 +24,27 @@
 #define STATUS_READ_U 10
 #define STATUS_ERROR 11
 
-typedef void (*functionTransition)(void);
+typedef struct {
+	char type;
+} TOKEN;
+
+typedef void (*functionTransition)(int*, TOKEN*);
 
 typedef struct {
 	int nextStatus;
 	functionTransition function;
 } TRANSITION;
 
-typedef struct {
-	char type;
-} TOKEN;
-
+void addTransition(int currentStatus,
+				   char charRead,
+				   int nextStatus,
+				   functionTransition functionPointer);
+void addTransitions();
+void giveTokenBoolean(int *finish, TOKEN *token);
+void giveTokenInt(int *finish, TOKEN *token);
+void giveTokenError(int *finish, TOKEN *token);
 TOKEN *parse(char *text);
+TOKEN *parse2(char *text);
 void initializeTransitionsTable();
 
 #endif

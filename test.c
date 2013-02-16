@@ -3,6 +3,8 @@
 extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
 void testCase() {
+	initializeTransitionsTable();
+	
 	itShouldSetAProperTransition();
 	IShouldIdentifyAPositiveInt();
 	IShouldIdentifyANegativeInt();

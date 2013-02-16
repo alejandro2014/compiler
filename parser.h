@@ -8,6 +8,9 @@
 #define TOKEN_INTEGER 1
 #define TOKEN_BOOLEAN 2
 
+#define NUMBER_CHARS 256
+#define NUMBER_STATUS 8
+
 #define STATUS_INITIAL 0
 #define STATUS_READ_DIGIT 1
 #define STATUS_GIVE_TOKEN 2
@@ -21,10 +24,18 @@
 #define STATUS_READ_U 10
 #define STATUS_ERROR 11
 
+typedef void (*functionTransition)(void);
+
+typedef struct {
+	int nextStatus;
+	functionTransition function;
+} TRANSITION;
+
 typedef struct {
 	char type;
 } TOKEN;
 
 TOKEN *parse(char *text);
+void initializeTransitionsTable();
 
 #endif

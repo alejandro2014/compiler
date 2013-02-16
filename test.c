@@ -1,11 +1,20 @@
 #include "test.h"
-#include "token.h"
+
+extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
 void testCase() {
+	itShouldSetAProperTransition();
 	IShouldIdentifyAPositiveInt();
 	IShouldIdentifyANegativeInt();
 	ItShouldIdentifyABooleanTrue();
 	ItShouldIdentifyABooleanFalse();
+}
+
+void itShouldSetAProperTransition() {
+	addTransition(0, 'b', 2, NULL);
+	printf("It should set a proper transition - ");
+	assert(transitionsTable[0]['b'].nextStatus == 2);
+	printf("OK\n");
 }
 
 void IShouldIdentifyAPositiveInt() {
@@ -50,5 +59,5 @@ void ItShouldIdentifyABooleanFalse() {
 	printf("I should identify a boolean false - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
-
 }
+

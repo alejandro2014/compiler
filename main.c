@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include "test.h"
-#include "token.h"
+#include "parser.h"
 
 int main(int argn, char *argv) {
+	//initializeTable();
 	testCase();
 	return 0;
 }

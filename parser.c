@@ -1,4 +1,17 @@
-#include "token.h"
+#include "parser.h"
+
+static TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
+
+void initializeTransitionsTable() {
+	//addTransition(STATUS_INITIAL, 0x29, STATUS_READ_DIGIT, NULL);
+}
+
+void addTransition(int currentStatus,
+				   char charRead,
+				   int nextStatus,
+				   char *functionPointer) {
+	transitionsTable[currentStatus][charRead].nextStatus = nextStatus;
+}
 
 TOKEN *parse(char *text) {
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));

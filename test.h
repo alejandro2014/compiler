@@ -8,7 +8,7 @@
 #include "parser.h"
 
 void testCase();
-void itShouldSetAProperTransition();
+//void itShouldSetAProperTransition();
 void IShouldIdentifyAPositiveInt();
 void IShouldIdentifyANegativeInt();
 void ItShouldIdentifyABooleanTrue();

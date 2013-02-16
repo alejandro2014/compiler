@@ -5,19 +5,11 @@ extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 void testCase() {
 	initializeTransitionsTable();
 	
-	itShouldSetAProperTransition();
 	IShouldIdentifyAPositiveInt();
 	IShouldIdentifyANegativeInt();
 	ItShouldIdentifyABooleanTrue();
 	ItShouldIdentifyABooleanFalse();
 	itShouldIdentifyAString();
-}
-
-void itShouldSetAProperTransition() {
-	addTransition(0, 'b', 2, NULL);
-	printf("It should set a proper transition - ");
-	assert(transitionsTable[0]['b'].nextStatus == 2);
-	printf("OK\n");
 }
 
 void IShouldIdentifyAPositiveInt() {

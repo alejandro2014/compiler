@@ -3,12 +3,14 @@
 TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
 void initializeTransitionsTable() {
+	TRANSITION transition;
 	int i, j;
 	
 	for(i = 0; i < NUMBER_STATUS; i++) {
 		for(j = 0; j < NUMBER_CHARS; j++) {
-			transitionsTable[i][j].nextStatus = STATUS_ERROR;
-			transitionsTable[i][j].function = giveTokenError;
+			transition = transitionsTable[i][j]; 
+			transition.nextStatus = STATUS_ERROR;
+			transition.function = giveTokenError;
 		}
 	}
 	
@@ -75,8 +77,9 @@ void addTransition(int currentStatus,
 				   char charRead,
 				   int nextStatus,
 				   functionTransition functionPointer) {
-	transitionsTable[currentStatus][charRead].nextStatus = nextStatus;
-	transitionsTable[currentStatus][charRead].function = functionPointer;
+	TRANSITION *currentTransition = &transitionsTable[currentStatus][charRead];
+	currentTransition->nextStatus = nextStatus;
+	currentTransition->function = functionPointer;
 }
 
 TOKEN *parse(char *text) {
@@ -86,16 +89,18 @@ TOKEN *parse(char *text) {
 	char currentChar = *(text + offset);
 	int finish = 0;
 	
+	TRANSITION currentTransition;
+	
 	memset(token, 0, sizeof(TOKEN));
 	
 	while(!finish) {
 		currentChar = *(text + offset);
+		currentTransition = transitionsTable[currentStatus][currentChar];
 		
-		if(transitionsTable[currentStatus][currentChar].function != NULL)
-			(transitionsTable[currentStatus][currentChar].function)(&finish, token);
+		if(currentTransition.function != NULL)
+			currentTransition.function(&finish, token);
 			
-		currentStatus = transitionsTable[currentStatus][currentChar].nextStatus;
-			
+		currentStatus = currentTransition.nextStatus;
 		offset++;
 	}
 	

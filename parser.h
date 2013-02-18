@@ -38,10 +38,6 @@ typedef struct {
 	functionTransition function;
 } TRANSITION;
 
-void addTransition(int currentStatus,
-				   char charRead,
-				   int nextStatus,
-				   functionTransition functionPointer);
 void addTransitions();
 
 void giveTokenBoolean(int *finish, TOKEN *token);
@@ -50,7 +46,5 @@ void giveTokenError(int *finish, TOKEN *token);
 void giveTokenString(int *finish, TOKEN *token);
 
 TOKEN *parse(char *text);
-TOKEN *parse2(char *text);
-void initializeTransitionsTable();
 
 #endif

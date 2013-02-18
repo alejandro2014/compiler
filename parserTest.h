@@ -7,8 +7,7 @@
 #include <string.h>
 #include "parser.h"
 
-void testCase();
-//void itShouldSetAProperTransition();
+void parserTestCase();
 void IShouldIdentifyAPositiveInt();
 void IShouldIdentifyANegativeInt();
 void ItShouldIdentifyABooleanTrue();

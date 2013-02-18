@@ -2,7 +2,8 @@
 
 extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
-void testCase() {
+void parserTestCase() {
+	printf("parserTestCase\n");
 	initializeTransitionsTable();
 	
 	IShouldIdentifyAPositiveInt();
@@ -14,11 +15,9 @@ void testCase() {
 
 void IShouldIdentifyAPositiveInt() {
 	char *integerText = "1234";
-	TOKEN *token = NULL;
+	TOKEN *token = parse(integerText);
 	
-	token = parse(integerText);
-	
-	printf("I should identify a positive int - ");
+	printf("\tI should identify a positive int - ");
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
 }
@@ -29,7 +28,7 @@ void IShouldIdentifyANegativeInt() {
 	
 	token = parse(integerText);
 	
-	printf("I should identify a negative int - ");
+	printf("\tI should identify a negative int - ");
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
 }
@@ -40,7 +39,7 @@ void ItShouldIdentifyABooleanTrue() {
 	
 	token = parse(booleanText);
 	
-	printf("I should identify a boolean true - ");
+	printf("\tI should identify a boolean true - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
 }
@@ -51,7 +50,7 @@ void ItShouldIdentifyABooleanFalse() {
 	
 	token = parse(booleanText);
 	
-	printf("I should identify a boolean false - ");
+	printf("\tI should identify a boolean false - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
 }
@@ -62,7 +61,7 @@ void itShouldIdentifyAString() {
 	
 	token = parse(stringText);
 	
-	printf("I should identify a string - ");
+	printf("\tI should identify a string - ");
 	assert(token->type == TOKEN_STRING);
 	printf("OK\n");
 }

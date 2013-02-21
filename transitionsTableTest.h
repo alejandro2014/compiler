@@ -3,9 +3,12 @@
 
 #include <assert.h>
 #include "parser.h"
+#include "transitionsTable.h"
 
 void transitionsTableTestCase();
 
+void itShouldCreateTransitionsTable();
+void itShouldDeleteTransitionsTable();
 void itShouldInitializeTransitionsTable();
 void itShouldAddAKeyWord();
 void itShouldAddSeveralKeywords();

@@ -4,6 +4,6 @@
 
 int main(int argn, char *argv) {
 	transitionsTableTestCase();
-	//parserTestCase();
+	parserTestCase();
 	return 0;
 }

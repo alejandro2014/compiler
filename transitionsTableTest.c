@@ -6,6 +6,7 @@ void transitionsTableTestCase() {
 	printf("transitionsTableTestCase\n");
 	itShouldInitializeTransitionsTable();
 	itShouldAddAKeyWord();
+	itShouldAddSeveralKeywords();
 }
 
 void itShouldInitializeTransitionsTable() {
@@ -26,6 +27,25 @@ void itShouldAddAKeyWord() {
 	
 	printf("\tI should add a keyword - ");
 	assert(token->type == TOKEN_BOOLEAN);
+	printf("OK\n");
+}
+
+void itShouldAddSeveralKeywords() {
+	transitionsTable_before();
+	
+	char *booleanText = "false";
+	char *intText = "1234";
+	TOKEN *token = NULL;
+	
+	addKeyword(booleanText, TOKEN_BOOLEAN);
+	addKeyword(intText, TOKEN_INTEGER);
+	
+	printf("\tI should add several keywords - ");
+	token = parse(booleanText);
+	assert(token->type == TOKEN_BOOLEAN);
+	
+	token = parse(intText);
+	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
 }
 

@@ -24,6 +24,7 @@ void addKeyword(char *keyword, int tokenType) {
 	char currentChar;
 	int currentStatus = STATUS_INITIAL;
 	int nextStatus;
+	functionTransition returnTokenFunction = NULL;
 	
 	for(i = 0; i < length; i++) {
 		currentChar = *(keyword + i);
@@ -33,7 +34,12 @@ void addKeyword(char *keyword, int tokenType) {
 		currentStatus = nextStatus;
 	}
 	
-	addTransition(currentStatus, 0x00, nextStatus, giveTokenBoolean);
+	switch(tokenType) {
+		case TOKEN_BOOLEAN: returnTokenFunction = giveTokenBoolean; break;
+		case TOKEN_INTEGER: returnTokenFunction = giveTokenInt; break;
+	}
+	
+	addTransition(currentStatus, 0x00, nextStatus, returnTokenFunction);
 }
 
 void addTransition(int currentStatus,

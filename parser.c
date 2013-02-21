@@ -52,7 +52,6 @@ void giveTokenInt(int *finish, TOKEN *token) {
 
 void giveTokenError(int *finish, TOKEN *token) {
 	*finish = 1;
-	printf("Found error in the input text\n");
 }
 
 void giveTokenString(int *finish, TOKEN *token) {

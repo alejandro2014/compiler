@@ -8,6 +8,7 @@ void transitionsTableTestCase();
 
 void itShouldInitializeTransitionsTable();
 void itShouldAddAKeyWord();
+void itShouldAddSeveralKeywords();
 void transitionsTable_before();
 
 #endif

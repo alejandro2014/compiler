@@ -1,6 +1,7 @@
 #include "transitionsTable.h"
 
 extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
+int numberStatus = 0;
 
 void initializeTransitionsTable() {
 	TRANSITION *transition = NULL;
@@ -22,13 +23,17 @@ void addKeyword(char *keyword, int tokenType) {
 	int i;
 	char currentChar;
 	int currentStatus = STATUS_INITIAL;
+	int nextStatus;
 	
 	for(i = 0; i < length; i++) {
 		currentChar = *(keyword + i);
 		
+		nextStatus = currentStatus + 1;
 		addTransition(currentStatus, currentChar, nextStatus, NULL);
 		currentStatus = nextStatus;
 	}
+	
+	addTransition(currentStatus, 0x00, nextStatus, giveTokenBoolean);
 }
 
 void addTransition(int currentStatus,

@@ -1,6 +1,5 @@
 #include "transitionsTable.h"
 
-extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 int numberStatus = 0;
 
 TRANS_TABLE *newTransitionsTable() {
@@ -10,17 +9,16 @@ TRANS_TABLE *newTransitionsTable() {
 	TRANSITION *transition = NULL;
 	int i, j;
 	
-	printf("++Allocating %p\n", table);
-	printf("+Allocating %p\n", transitions);
 	for(i = 0; i < NUMBER_STATUS; i++) {
 		transitionsForAChar = (TRANSITION *) malloc(sizeof(TRANSITION) * NUMBER_CHARS);
-		printf("Allocating %p\n", transitionsForAChar);
+		
 		for(j = 0; j < NUMBER_CHARS; j++) {
 			transition = transitionsForAChar + j;
 			transition->nextStatus = STATUS_ERROR;
 			transition->function = giveTokenError;
 		}
 		
+		printf("%d> %p\n",i,transitionsForAChar);
 		*(transitions + i) = transitionsForAChar;
 	}
 	
@@ -34,40 +32,18 @@ void deleteTransitionsTable(TRANS_TABLE *table) {
 	TRANSITION *current = NULL;
 	int i, j;
 	
-	printf("%p------\n", transitions);
 	for(i = 0; i < NUMBER_STATUS; i++) {
-		current = transitions[i];
+		current = *(transitions + i);
 	
-		printf("Freeing %p ->", current);
+		printf("%d: %p\n", i, current);
 		free(current);
 		current = NULL;
-		printf(" %p\n", current);
 	}
 	
-	printf("-Freeing %p ->", transitions);
 	free(transitions);
-	transitions = NULL;
-	printf(" %p\n", transitions);
 	
-	printf("--Freeing %p ->", table);
 	free(table);
 	table = NULL;
-	printf(" %p\n", table);
-}
-
-void initializeTransitionsTable(TRANS_TABLE *transTable) {
-	TRANSITION *transition = NULL;
-	int i, j;
-	
-	for(i = 0; i < NUMBER_STATUS; i++) {
-		for(j = 0; j < NUMBER_CHARS; j++) {
-			transition = &transitionsTable[i][j]; 
-			transition->nextStatus = STATUS_ERROR;
-			transition->function = giveTokenError;
-		}
-	}
-	
-	addTransitions(transTable);
 }
 
 void addTransitions(TRANS_TABLE *transTable) {

@@ -1,7 +1,5 @@
 #include "parser.h"
 
-TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
-
 TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
 	int currentStatus = STATUS_INITIAL;

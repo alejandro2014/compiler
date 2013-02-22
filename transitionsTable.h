@@ -10,7 +10,7 @@
 #define TOKEN_STRING 3
 
 #define NUMBER_CHARS 256
-#define NUMBER_STATUS 12
+#define NUMBER_STATUS 13
 
 #define STATUS_INITIAL 0
 #define STATUS_READ_DIGIT 1
@@ -47,7 +47,6 @@ typedef struct {
 TRANS_TABLE *newTransitionsTable();
 void deleteTransitionsTable(TRANS_TABLE *table);
 
-void initializeTransitionsTable(TRANS_TABLE *transTable);
 void addTransitions(TRANS_TABLE *transTable);
 
 void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType);

@@ -3,7 +3,7 @@
 #include "parserTest.h"
 
 int main(int argn, char *argv) {
-	transitionsTableTestCase();
+	//transitionsTableTestCase();
 	parserTestCase();
 	return 0;
 }

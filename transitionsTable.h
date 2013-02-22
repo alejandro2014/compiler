@@ -45,7 +45,7 @@ typedef struct {
 } TRANS_TABLE;
 
 TRANS_TABLE *newTransitionsTable();
-void deleteTransitionsTable(TRANS_TABLE **table);
+void deleteTransitionsTable(TRANS_TABLE *table);
 
 void initializeTransitionsTable(TRANS_TABLE *transTable);
 void addTransitions(TRANS_TABLE *transTable);

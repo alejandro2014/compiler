@@ -19,17 +19,17 @@ void itShouldCreateTransitionsTable() {
 	assert(table->transitions != NULL);
 	printf("OK\n");
 	
-	deleteTransitionsTable(&table);
+	deleteTransitionsTable(table);
 }
 
 void itShouldDeleteTransitionsTable() {
-	TRANS_TABLE *table = newTransitionsTable();
+	/*TRANS_TABLE *table = newTransitionsTable();
 	
-	deleteTransitionsTable(&table);
+	deleteTransitionsTable(table);
 	
 	printf("\tIt should delete a transitions table - ");
 	assert(table == NULL);
-	printf("OK\n");
+	printf("OK\n");*/
 }
 
 void itShouldInitializeTransitionsTable() {
@@ -39,7 +39,7 @@ void itShouldInitializeTransitionsTable() {
 	assert(table->transitions[2]['t'].nextStatus == STATUS_ERROR);
 	printf("OK\n");
 	
-	deleteTransitionsTable(&table);
+	deleteTransitionsTable(table);
 }
 
 void itShouldAddAKeyWord() {	
@@ -53,6 +53,8 @@ void itShouldAddAKeyWord() {
 	printf("\tIt should add a keyword - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
+	
+	deleteTransitionsTable(table);
 }
 
 void itShouldAddSeveralKeywords() {
@@ -71,6 +73,8 @@ void itShouldAddSeveralKeywords() {
 	token = parse(table, intText);
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
+	
+	deleteTransitionsTable(table);
 }
 
 void transitionsTable_before() {

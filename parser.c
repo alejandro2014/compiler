@@ -2,7 +2,7 @@
 
 TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
-TOKEN *parse(char *text) {
+TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
 	int currentStatus = STATUS_INITIAL;
 	int offset = 0;
@@ -15,7 +15,7 @@ TOKEN *parse(char *text) {
 	
 	while(!finish) {
 		currentChar = *(text + offset);
-		currentTransition = transitionsTable[currentStatus][currentChar];
+		currentTransition = transTable->transitions[currentStatus][currentChar];
 		
 		if(currentTransition.function != NULL)
 			currentTransition.function(&finish, token);

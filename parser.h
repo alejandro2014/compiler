@@ -3,6 +3,6 @@
 
 #include "transitionsTable.h"
 
-TOKEN *parse(char *text);
+TOKEN *parse(TRANS_TABLE *transTable, char *text);
 
 #endif

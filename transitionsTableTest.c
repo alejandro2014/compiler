@@ -18,12 +18,14 @@ void itShouldCreateTransitionsTable() {
 	assert(table != NULL);
 	assert(table->transitions != NULL);
 	printf("OK\n");
+	
+	deleteTransitionsTable(&table);
 }
 
 void itShouldDeleteTransitionsTable() {
 	TRANS_TABLE *table = newTransitionsTable();
 	
-	deleteTransitionsTable(table);
+	deleteTransitionsTable(&table);
 	
 	printf("\tIt should delete a transitions table - ");
 	assert(table == NULL);
@@ -31,23 +33,22 @@ void itShouldDeleteTransitionsTable() {
 }
 
 void itShouldInitializeTransitionsTable() {
-	//transitionsTable_before();
-	//TRANSITION *transTable = createTransitionsTable();
+	TRANS_TABLE *table = newTransitionsTable();
 	
 	printf("\tIt should initialize the transitions table - ");
-	assert(transitionsTable[2]['t'].nextStatus == STATUS_ERROR);
+	assert(table->transitions[2]['t'].nextStatus == STATUS_ERROR);
 	printf("OK\n");
 	
-	//deleteTransitionsTable();
+	deleteTransitionsTable(&table);
 }
 
-void itShouldAddAKeyWord() {
-	transitionsTable_before();
+void itShouldAddAKeyWord() {	
+	TRANS_TABLE *table = newTransitionsTable();
 	
-	addKeyword("false", TOKEN_BOOLEAN);
-	
+	addKeyword(table, "false", TOKEN_BOOLEAN);
+
 	char *booleanText = "false";
-	TOKEN *token = parse(booleanText);
+	TOKEN *token = parse(table, booleanText);
 	
 	printf("\tIt should add a keyword - ");
 	assert(token->type == TOKEN_BOOLEAN);
@@ -55,24 +56,23 @@ void itShouldAddAKeyWord() {
 }
 
 void itShouldAddSeveralKeywords() {
-	transitionsTable_before();
-	
+	TRANS_TABLE *table = newTransitionsTable();
 	char *booleanText = "false";
 	char *intText = "1234";
 	TOKEN *token = NULL;
 	
-	addKeyword(booleanText, TOKEN_BOOLEAN);
-	addKeyword(intText, TOKEN_INTEGER);
+	addKeyword(table, booleanText, TOKEN_BOOLEAN);
+	addKeyword(table, intText, TOKEN_INTEGER);
 	
 	printf("\tIt should add several keywords - ");
-	token = parse(booleanText);
+	token = parse(table, booleanText);
 	assert(token->type == TOKEN_BOOLEAN);
 	
-	token = parse(intText);
+	token = parse(table, intText);
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
 }
 
 void transitionsTable_before() {
-	initializeTransitionsTable();
+	//initializeTransitionsTable();
 }

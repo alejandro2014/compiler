@@ -4,7 +4,7 @@ extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
 void parserTestCase() {
 	printf("parserTestCase\n");
-	initializeTransitionsTable();
+	//initializeTransitionsTable();
 	
 	IShouldIdentifyAPositiveInt();
 	IShouldIdentifyANegativeInt();
@@ -15,53 +15,61 @@ void parserTestCase() {
 
 void IShouldIdentifyAPositiveInt() {
 	char *integerText = "1234";
-	TOKEN *token = parse(integerText);
+	TRANS_TABLE *transTable = newTransitionsTable();
+	addTransitions(transTable);
+	TOKEN *token = parse(transTable, integerText);
 	
 	printf("\tI should identify a positive int - ");
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
+	
+	deleteTransitionsTable(&transTable);
 }
 
 void IShouldIdentifyANegativeInt() {
 	char *integerText = "-1234";
-	TOKEN *token = NULL;
-	
-	token = parse(integerText);
+	TRANS_TABLE *transTable = newTransitionsTable();
+	addTransitions(transTable);
+	TOKEN *token = parse(transTable, integerText);
 	
 	printf("\tI should identify a negative int - ");
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
+	deleteTransitionsTable(&transTable);
 }
 
 void ItShouldIdentifyABooleanTrue() {
 	char *booleanText = "true";
-	TOKEN *token = NULL;
-	
-	token = parse(booleanText);
+	TRANS_TABLE *transTable = newTransitionsTable();
+	addTransitions(transTable);
+	TOKEN *token = parse(transTable, booleanText);
 	
 	printf("\tI should identify a boolean true - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
+	deleteTransitionsTable(&transTable);
 }
 
 void ItShouldIdentifyABooleanFalse() {
 	char *booleanText = "false";
-	TOKEN *token = NULL;
-	
-	token = parse(booleanText);
+	TRANS_TABLE *transTable = newTransitionsTable();
+	addTransitions(transTable);
+	TOKEN *token = parse(transTable, booleanText);
 	
 	printf("\tI should identify a boolean false - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
+	deleteTransitionsTable(&transTable);
 }
 
 void itShouldIdentifyAString() {
 	char *stringText = "\"A string is surrounded by double quotes\"";
-	TOKEN *token = NULL;
-	
-	token = parse(stringText);
+	TRANS_TABLE *transTable = newTransitionsTable();
+	addTransitions(transTable);
+	TOKEN *token = parse(transTable, stringText);
 	
 	printf("\tI should identify a string - ");
 	assert(token->type == TOKEN_STRING);
 	printf("OK\n");
+	deleteTransitionsTable(&transTable);
 }

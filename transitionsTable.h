@@ -45,14 +45,15 @@ typedef struct {
 } TRANS_TABLE;
 
 TRANS_TABLE *newTransitionsTable();
-void deleteTransitionsTable(TRANS_TABLE *table);
+void deleteTransitionsTable(TRANS_TABLE **table);
 
-void initializeTransitionsTable();
-void addTransitions();
+void initializeTransitionsTable(TRANS_TABLE *transTable);
+void addTransitions(TRANS_TABLE *transTable);
 
-void addKeyword(char *keyword, int tokenType);
+void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType);
 
-void addTransition(int currentStatus,
+void addTransition(TRANS_TABLE *transTable,
+				   int currentStatus,
 				   char charRead,
 				   int nextStatus,
 				   functionTransition functionPointer);

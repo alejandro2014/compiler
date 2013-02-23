@@ -59,8 +59,8 @@ void addTransitions(TRANS_TABLE *transTable) {
 		addTransition(transTable, STATUS_READ_STRING, i, STATUS_READ_STRING, NULL);
 	
 	addTransition(transTable, STATUS_READ_STRING, '\"', STATUS_GIVE_TOKEN, giveTokenString);
-	
-	addTransition(transTable, STATUS_INITIAL, 't', STATUS_READ_T, NULL);
+		
+	/*addTransition(transTable, STATUS_INITIAL, 't', STATUS_READ_T, NULL);
 	addTransition(transTable, STATUS_READ_T, 'r', STATUS_READ_R, NULL);
 	addTransition(transTable, STATUS_READ_R, 'u', STATUS_READ_U, NULL);
 	addTransition(transTable, STATUS_READ_U, 'e', STATUS_READ_E, NULL);
@@ -72,6 +72,10 @@ void addTransitions(TRANS_TABLE *transTable) {
 	addTransition(transTable, STATUS_READ_S, 'e', STATUS_READ_E, NULL);
 	
 	addTransition(transTable, STATUS_READ_E, 0x00, STATUS_GIVE_TOKEN, giveTokenBoolean);
+	*/
+	
+	addKeyword(transTable, "true", TOKEN_BOOLEAN);
+	addKeyword(transTable, "false", TOKEN_BOOLEAN);
 	
 	for(i = 0x30; i < 0x40; i++) 
 		addTransition(transTable, STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);

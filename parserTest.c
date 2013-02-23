@@ -21,6 +21,7 @@ void IShouldIdentifyAPositiveInt() {
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
 	
+	free(token);
 	deleteTransitionsTable(transTable);
 }
 
@@ -33,6 +34,8 @@ void IShouldIdentifyANegativeInt() {
 	printf("\tI should identify a negative int - ");
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
+	
+	free(token);
 	deleteTransitionsTable(transTable);
 }
 
@@ -45,6 +48,8 @@ void ItShouldIdentifyABooleanTrue() {
 	printf("\tI should identify a boolean true - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
+	
+	free(token);
 	deleteTransitionsTable(transTable);
 }
 
@@ -57,6 +62,8 @@ void ItShouldIdentifyABooleanFalse() {
 	printf("\tI should identify a boolean false - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
+	
+	free(token);
 	deleteTransitionsTable(transTable);
 }
 
@@ -69,5 +76,7 @@ void itShouldIdentifyAString() {
 	printf("\tI should identify a string - ");
 	assert(token->type == TOKEN_STRING);
 	printf("OK\n");
+	
+	free(token);
 	deleteTransitionsTable(transTable);
 }

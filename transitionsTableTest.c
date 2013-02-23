@@ -44,23 +44,24 @@ void itShouldInitializeTransitionsTable() {
 
 void itShouldAddAKeyWord() {	
 	TRANS_TABLE *table = newTransitionsTable();
+	unsigned char *booleanText = "false";
+	TOKEN *token = NULL;
 	
-	addKeyword(table, "false", TOKEN_BOOLEAN);
-
-	char *booleanText = "false";
-	TOKEN *token = parse(table, booleanText);
+	addKeyword(table, booleanText, TOKEN_BOOLEAN);
+	token = parse(table, booleanText);
 	
 	printf("\tIt should add a keyword - ");
 	assert(token->type == TOKEN_BOOLEAN);
 	printf("OK\n");
 	
+	free(token);
 	deleteTransitionsTable(table);
 }
 
 void itShouldAddSeveralKeywords() {
 	TRANS_TABLE *table = newTransitionsTable();
-	char *booleanText = "false";
-	char *intText = "1234";
+	unsigned char *booleanText = "false";
+	unsigned char *intText = "1234";
 	TOKEN *token = NULL;
 	
 	addKeyword(table, booleanText, TOKEN_BOOLEAN);
@@ -69,11 +70,13 @@ void itShouldAddSeveralKeywords() {
 	printf("\tIt should add several keywords - ");
 	token = parse(table, booleanText);
 	assert(token->type == TOKEN_BOOLEAN);
+	free(token);
 	
 	token = parse(table, intText);
 	assert(token->type == TOKEN_INTEGER);
 	printf("OK\n");
 	
+	free(token);
 	deleteTransitionsTable(table);
 }
 

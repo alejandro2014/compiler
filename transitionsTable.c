@@ -18,7 +18,6 @@ TRANS_TABLE *newTransitionsTable() {
 			transition->function = giveTokenError;
 		}
 		
-		printf("%d> %p\n",i,transitionsForAChar);
 		*(transitions + i) = transitionsForAChar;
 	}
 	
@@ -35,7 +34,6 @@ void deleteTransitionsTable(TRANS_TABLE *table) {
 	for(i = 0; i < NUMBER_STATUS; i++) {
 		current = *(transitions + i);
 	
-		printf("%d: %p\n", i, current);
 		free(current);
 		current = NULL;
 	}
@@ -84,10 +82,10 @@ void addTransitions(TRANS_TABLE *transTable) {
 		addTransition(transTable, STATUS_GIVE_TOKEN, i, STATUS_GIVE_TOKEN, NULL);
 }
 
-void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
+void addKeyword(TRANS_TABLE *transTable, unsigned char *keyword, int tokenType) {
 	int length = strlen(keyword);
 	int i;
-	char currentChar;
+	unsigned char currentChar;
 	int currentStatus = STATUS_INITIAL;
 	int nextStatus;
 	functionTransition returnTokenFunction = NULL;
@@ -111,10 +109,12 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
 
 void addTransition(TRANS_TABLE *transTable,
 				   int currentStatus,
-				   char charRead,
+				   unsigned char charRead,
 				   int nextStatus,
 				   functionTransition functionPointer) {
-	TRANSITION *currentTransition = &transTable->transitions[currentStatus][charRead];
+	TRANSITION **transitions = transTable->transitions;
+	TRANSITION *currentTransition = transitions[currentStatus] + charRead;
+	
 	currentTransition->nextStatus = nextStatus;
 	currentTransition->function = functionPointer;
 }

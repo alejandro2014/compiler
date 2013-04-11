@@ -1,4 +1,0 @@
-#!/bin/bash
-#TODO
-#Adapt the name, in the way that we can use a variable defined in auto.conf for example
-./project/bin/test1

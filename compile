@@ -1,6 +1,0 @@
-#!/bin/bash
-./auto
-cd project
-make
-cd ..
-

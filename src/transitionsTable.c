@@ -46,28 +46,39 @@ void deleteTransitionsTable(TRANS_TABLE *table) {
 }
 
 void addTransitions(TRANS_TABLE *transTable) {
-	int i;
-	
-	for(i = 0x30; i < 0x40; i++)
+    addNumbers(transTable);
+	addStrings(transTable);
+	addKeywords(transTable);
+}
+
+void addNumbers(TRANS_TABLE *transTable) {
+    int i;
+    
+    for(i = 0x30; i < 0x40; i++)
 		addTransition(transTable, STATUS_INITIAL, i, STATUS_READ_DIGIT, NULL);
 			
 	addTransition(transTable, STATUS_INITIAL, '-', STATUS_READ_DIGIT, NULL);
-	
-	//Strings
-	addTransition(transTable, STATUS_INITIAL, '\"', STATUS_READ_STRING, NULL);
+    
+    for(i = 0x30; i < 0x40; i++)
+		addTransition(transTable, STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);
+		
+	addTransition(transTable, STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
+}
+
+void addStrings(TRANS_TABLE *transTable) {
+    int i;
+    
+    addTransition(transTable, STATUS_INITIAL, '\"', STATUS_READ_STRING, NULL);
 	
 	for(i = 0; i < 256; i++)
 		addTransition(transTable, STATUS_READ_STRING, i, STATUS_READ_STRING, NULL);
 	
 	addTransition(transTable, STATUS_READ_STRING, '\"', STATUS_GIVE_TOKEN, giveTokenString);
-	
-	addKeyword(transTable, "true", TOKEN_BOOLEAN);
+}
+
+void addKeywords(TRANS_TABLE *transTable) {
+    addKeyword(transTable, "true", TOKEN_BOOLEAN);
 	addKeyword(transTable, "false", TOKEN_BOOLEAN);
-	
-	for(i = 0x30; i < 0x40; i++) 
-		addTransition(transTable, STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);
-		
-	addTransition(transTable, STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
 }
 
 void addKeyword(TRANS_TABLE *transTable, unsigned char *keyword, int tokenType) {

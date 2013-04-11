@@ -1,4 +1,4 @@
-#Script created automatically on Wed Apr 10 21:55:16 BST 2013
+#Script created automatically on Thu Apr 11 21:06:19 BST 2013
 #If you want to add parameters, modify the file auto.conf
 
 EXE=language
@@ -9,7 +9,7 @@ SRCPATH=${MAINDIR}/src
 OBJPATH=${MAINDIR}/obj
 BINPATH=${MAINDIR}/bin
 
-OPTC=
+OPTC=-g
 OPTL=
 
 OBJ1=main

@@ -1,7 +1,5 @@
 #include "transitionsTable.h"
 
-int numberStatus = 0;
-
 TRANS_TABLE *newTransitionsTable() {
 	TRANS_TABLE *table = (TRANS_TABLE *) malloc(sizeof(TRANS_TABLE));
 	TRANSITION **transitions = (TRANSITION **) malloc(sizeof(TRANSITION *) * NUMBER_STATUS);
@@ -22,6 +20,9 @@ TRANS_TABLE *newTransitionsTable() {
 	}
 	
 	table->transitions = transitions;
+    table->numberOfChars = NUMBER_CHARS;
+    table->numberOfStatus = NUMBER_STATUS;
+    table->maxStateAlloc = 0;
 	
 	return table;
 }
@@ -59,20 +60,6 @@ void addTransitions(TRANS_TABLE *transTable) {
 		addTransition(transTable, STATUS_READ_STRING, i, STATUS_READ_STRING, NULL);
 	
 	addTransition(transTable, STATUS_READ_STRING, '\"', STATUS_GIVE_TOKEN, giveTokenString);
-		
-	/*addTransition(transTable, STATUS_INITIAL, 't', STATUS_READ_T, NULL);
-	addTransition(transTable, STATUS_READ_T, 'r', STATUS_READ_R, NULL);
-	addTransition(transTable, STATUS_READ_R, 'u', STATUS_READ_U, NULL);
-	addTransition(transTable, STATUS_READ_U, 'e', STATUS_READ_E, NULL);
-	
-	addTransition(transTable, STATUS_INITIAL, 'f', STATUS_READ_F, NULL);
-	addTransition(transTable, STATUS_READ_F, 'a', STATUS_READ_A, NULL);
-	addTransition(transTable, STATUS_READ_A, 'l', STATUS_READ_L, NULL);
-	addTransition(transTable, STATUS_READ_L, 's', STATUS_READ_S, NULL);
-	addTransition(transTable, STATUS_READ_S, 'e', STATUS_READ_E, NULL);
-	
-	addTransition(transTable, STATUS_READ_E, 0x00, STATUS_GIVE_TOKEN, giveTokenBoolean);
-	*/
 	
 	addKeyword(transTable, "true", TOKEN_BOOLEAN);
 	addKeyword(transTable, "false", TOKEN_BOOLEAN);
@@ -81,9 +68,6 @@ void addTransitions(TRANS_TABLE *transTable) {
 		addTransition(transTable, STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);
 		
 	addTransition(transTable, STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
-	
-	for(i = 0; i < 256; i++) 
-		addTransition(transTable, STATUS_GIVE_TOKEN, i, STATUS_GIVE_TOKEN, NULL);
 }
 
 void addKeyword(TRANS_TABLE *transTable, unsigned char *keyword, int tokenType) {
@@ -97,8 +81,7 @@ void addKeyword(TRANS_TABLE *transTable, unsigned char *keyword, int tokenType) 
 	for(i = 0; i < length; i++) {
 		currentChar = *(keyword + i);
 		
-		nextStatus = currentStatus + 1;
-		numberStatus++;
+		nextStatus = ++(transTable->maxStateAlloc);
 		addTransition(transTable, currentStatus, currentChar, nextStatus, NULL);
 		currentStatus = nextStatus;
 	}

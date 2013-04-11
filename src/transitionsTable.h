@@ -42,6 +42,7 @@ typedef struct {
 	int numberOfStatus;
 	int numberOfChars;
 	TRANSITION **transitions;
+    int maxStateAlloc;
 } TRANS_TABLE;
 
 TRANS_TABLE *newTransitionsTable();

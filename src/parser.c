@@ -13,12 +13,14 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	
 	while(!finish) {
 		currentChar = *(text + offset);
+        //printf("[%i][%c] -> ", currentStatus, currentChar);
 		currentTransition = transTable->transitions[currentStatus][currentChar];
 		
 		if(currentTransition.function != NULL)
 			currentTransition.function(&finish, token);
 			
 		currentStatus = currentTransition.nextStatus;
+        //printf("%i\n", currentStatus);
 		offset++;
 	}
 	

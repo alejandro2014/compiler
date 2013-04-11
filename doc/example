@@ -1,0 +1,32 @@
+#This is an example of program with the new language
+#The comments will be limited, so we will only use one line comments
+class Paco {
+	private:
+		Number newNumber = 1
+		String newString = "hola"
+		Date newDate = 22/02/2002
+		Array<Date> arrayDates = {newDate, newDate, newDate}
+
+	public:
+		Constructor(@newNumber, @newString) {
+			if(condition) {
+				...
+			} else {
+				...
+			}
+
+			for(date <- arrayDates, condition) {
+				...
+			}
+		}
+
+		String method(Number anotherNumber, Number moreNumber) {
+			Pepe classPepe = new (anotherNumber, moreNumber)
+			classPepe.doThings()
+			classPepe.destroy()
+		}
+}
+
+class Pepe {
+	...
+}

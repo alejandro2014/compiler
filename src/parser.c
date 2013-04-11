@@ -1,9 +1,10 @@
 #include "parser.h"
+#define DEBUGGING
 
 TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
 	int currentStatus = STATUS_INITIAL;
-	int offset = 0;
+	int offset = transTable->offset;
 	char currentChar = *(text + offset);
 	int finish = 0;
 	
@@ -13,16 +14,23 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	
 	while(!finish) {
 		currentChar = *(text + offset);
-        //printf("[%i][%c] -> ", currentStatus, currentChar);
+        
+#ifdef DEBUGGING
+    printf("[%i][%c] -> ", currentStatus, currentChar);
+#endif
 		currentTransition = transTable->transitions[currentStatus][currentChar];
 		
 		if(currentTransition.function != NULL)
 			currentTransition.function(&finish, token);
 			
 		currentStatus = currentTransition.nextStatus;
-        //printf("%i\n", currentStatus);
+#ifdef DEBUGGING
+    printf("%i\n", currentStatus);
+#endif
 		offset++;
 	}
+    
+    transTable->offset += offset;
 	
 	return token;
 }

@@ -43,6 +43,7 @@ typedef struct {
 	int numberOfChars;
 	TRANSITION **transitions;
     int maxStateAlloc;
+    int offset;
 } TRANS_TABLE;
 
 TRANS_TABLE *newTransitionsTable();

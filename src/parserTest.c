@@ -9,6 +9,7 @@ void parserTestCase() {
 	ItShouldIdentifyABooleanTrue();
 	ItShouldIdentifyABooleanFalse();
 	itShouldIdentifyAString();
+    itShouldIdentifyTokensSeparatedBySpace();
 }
 
 void IShouldIdentifyAPositiveInt() {
@@ -78,5 +79,22 @@ void itShouldIdentifyAString() {
 	printf("OK\n");
 	
 	free(token);
+	deleteTransitionsTable(transTable);
+}
+
+void itShouldIdentifyTokensSeparatedBySpace() {
+    char *text = "1234 true";
+    TRANS_TABLE *transTable = newTransitionsTable();
+	addTransitions(transTable);
+	TOKEN *tokenNumber = parse(transTable, text);
+    TOKEN *tokenBoolean = parse(transTable, text);
+	
+	printf("\tI should identify tokens separated by space - ");
+	assert(tokenNumber->type == TOKEN_INTEGER);
+    assert(tokenBoolean->type == TOKEN_BOOLEAN);
+	printf("OK\n");
+	
+	free(tokenNumber);
+    free(tokenBoolean);
 	deleteTransitionsTable(transTable);
 }

@@ -23,6 +23,7 @@ TRANS_TABLE *newTransitionsTable() {
     table->numberOfChars = NUMBER_CHARS;
     table->numberOfStatus = NUMBER_STATUS;
     table->maxStateAlloc = 0;
+    table->offset = 0;
 	
 	return table;
 }
@@ -63,6 +64,7 @@ void addNumbers(TRANS_TABLE *transTable) {
 		addTransition(transTable, STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);
 		
 	addTransition(transTable, STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
+    addTransition(transTable, STATUS_READ_DIGIT, 0x20, STATUS_GIVE_TOKEN, giveTokenInt);
 }
 
 void addStrings(TRANS_TABLE *transTable) {
@@ -103,6 +105,7 @@ void addKeyword(TRANS_TABLE *transTable, unsigned char *keyword, int tokenType) 
 	}
 	
 	addTransition(transTable, currentStatus, 0x00, nextStatus, returnTokenFunction);
+    addTransition(transTable, currentStatus, 0x20, nextStatus, returnTokenFunction);
 }
 
 void addTransition(TRANS_TABLE *transTable,

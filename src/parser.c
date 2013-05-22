@@ -1,5 +1,5 @@
 #include "parser.h"
-#define DEBUGGING
+//#define DEBUGGING
 
 TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));

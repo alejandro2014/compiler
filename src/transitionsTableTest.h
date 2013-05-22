@@ -5,7 +5,7 @@
 #include "parser.h"
 #include "transitionsTable.h"
 
-void transitionsTableTestCase();
+void transitionsTablETestCase();
 
 void itShouldCreateTransitionsTable();
 void itShouldDeleteTransitionsTable();

@@ -1,48 +1,50 @@
 #include "transitionsTableTest.h"
 
+#define INITTESTCASE(nameTestCase) void nameTestCase() { \
+		printf(#nameTestCase "\n");
+
+#define REGISTER(testCase) testCase();
+	
+#define TEST(condition) void condition() { \
+		printf("\t" #condition " - ");
+		
+#define ENDTEST printf("OK\n"); }
+
 extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 
-void transitionsTableTestCase() {
-	printf("transitionsTableTestCase\n");
-	itShouldCreateTransitionsTable();
-	itShouldDeleteTransitionsTable();
-	itShouldInitializeTransitionsTable();
-	itShouldAddAKeyWord();
-	itShouldAddSeveralKeywords();
+INITTESTCASE(transitionsTableTestCase)
+	REGISTER(itShouldCreateTransitionsTable)
+	REGISTER(itShouldDeleteTransitionsTable)
+	REGISTER(itShouldInitializeTransitionsTable)
+	REGISTER(itShouldAddAKeyWord)
+	REGISTER(itShouldAddSeveralKeywords)
 }
 
-void itShouldCreateTransitionsTable() {
+TEST(itShouldCreateTransitionsTable)	
 	TRANS_TABLE *table = newTransitionsTable();
 	
-	printf("\tIt should create a new transitions table - ");
 	assert(table != NULL);
 	assert(table->transitions != NULL);
-	printf("OK\n");
 	
 	deleteTransitionsTable(table);
-}
+ENDTEST
 
-void itShouldDeleteTransitionsTable() {
+TEST(itShouldDeleteTransitionsTable)
 	/*TRANS_TABLE *table = newTransitionsTable();
 	
 	deleteTransitionsTable(table);
 	
-	printf("\tIt should delete a transitions table - ");
-	assert(table == NULL);
-	printf("OK\n");*/
-}
+	assert(table == NULL);*/
+ENDTEST
 
-void itShouldInitializeTransitionsTable() {
+TEST(itShouldInitializeTransitionsTable)
 	TRANS_TABLE *table = newTransitionsTable();
 	
-	printf("\tIt should initialize the transitions table - ");
 	assert(table->transitions[2]['t'].nextStatus == STATUS_ERROR);
-	printf("OK\n");
-	
 	deleteTransitionsTable(table);
-}
+ENDTEST
 
-void itShouldAddAKeyWord() {	
+TEST(itShouldAddAKeyWord)
 	TRANS_TABLE *table = newTransitionsTable();
 	unsigned char *booleanText = "false";
 	TOKEN *token = NULL;
@@ -50,15 +52,13 @@ void itShouldAddAKeyWord() {
 	addKeyword(table, booleanText, TOKEN_BOOLEAN);
 	token = parse(table, booleanText);
 	
-	printf("\tIt should add a keyword - ");
 	assert(token->type == TOKEN_BOOLEAN);
-	printf("OK\n");
 	
 	free(token);
 	deleteTransitionsTable(table);
-}
+ENDTEST
 
-void itShouldAddSeveralKeywords() {
+TEST(itShouldAddSeveralKeywords)
 	TRANS_TABLE *table = newTransitionsTable();
 	unsigned char *booleanText = "false";
 	unsigned char *intText = "1234";
@@ -67,18 +67,16 @@ void itShouldAddSeveralKeywords() {
 	addKeyword(table, booleanText, TOKEN_BOOLEAN);
 	addKeyword(table, intText, TOKEN_INTEGER);
 	
-	printf("\tIt should add several keywords - ");
 	token = parse(table, booleanText);
 	assert(token->type == TOKEN_BOOLEAN);
 	free(token);
 	
 	token = parse(table, intText);
 	assert(token->type == TOKEN_INTEGER);
-	printf("OK\n");
 	
 	free(token);
 	deleteTransitionsTable(table);
-}
+ENDTEST
 
 void transitionsTable_before() {
 	//initializeTransitionsTable();

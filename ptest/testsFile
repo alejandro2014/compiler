@@ -1,7 +1,3 @@
-//@TestCase transitionsTableTestCase
-#include "parser.h"
-#include "transitionsTable.h"
-
 TEST(itShouldCreateTransitionsTable)
 	TRANS_TABLE *table = newTransitionsTable();
 	

@@ -2,6 +2,13 @@
 TEST_CASE_NAME=
 TEST_NAMES=testNames
 
+function writeFunctionsNames() {
+	for i in `cat $TEST_NAMES`
+	do
+		echo "void $i();"
+	done
+}
+
 if [ -f $TEST_NAMES ]; then
 	rm $TEST_NAMES
 fi
@@ -11,22 +18,23 @@ do
 	echo "${i%?}" >> $TEST_NAMES
 done
 
-cat $TEST_NAMES
-
 TEST_CASE_NAME=`grep @TestCase file.c | cut -f 2 -d " "`
 
-echo "#include \"testCase.h\""
-echo "void $TEST_CASE_NAME();"
 
-for i in `cat $TEST_NAMES`
-do
-	echo "void $i();"
-done
+
+LINE_FIRST_TEST=`grep -n TEST file.c | head -n 1 | cut -f 1 -d ":"`
+TESTS=testsFile
+FIRST_PART_FILE=firstPartFile
+tail +$LINE_FIRST_TEST file.c > $TESTS
+
+NLINES_FIRST_PART=`expr 5 - 1`
+head file.c -n $NLINES_FIRST_PART > $FIRST_PART_FILE
+
+cat $FIRST_PART_FILE
+echo "#include \"testCase.h\""
+writeFunctionsNames
 
 echo "void $TEST_CASE_NAME() {"
-for i in `cat $TEST_NAMES`
-do
-	echo "void $i();"
-done
+writeFunctionsNames
 echo "}"
-
+cat $TESTS

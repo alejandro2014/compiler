@@ -1,6 +1,8 @@
 //#include "transitionsTableTest.h"
 
-#include "testCase.h"
+#include "testCase.h" //-
+#include "parser.h"
+#include "transitionsTable.h"
 
 void transitionsTableTestCase();
 void itShouldCreateTransitionsTable();
@@ -17,9 +19,6 @@ INITTESTCASE(transitionsTableTestCase)
 	REGISTER(itShouldAddAKeyWord)
 	REGISTER(itShouldAddSeveralKeywords)
 }
-
-#include "parser.h"
-#include "transitionsTable.h"
 
 extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
 

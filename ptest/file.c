@@ -1,29 +1,6 @@
-//#include "transitionsTableTest.h"
+//@TestCase transitionsTableTestCase
 
-#include "testCase.h"
-
-void transitionsTableTestCase();
-void itShouldCreateTransitionsTable();
-void itShouldDeleteTransitionsTable();
-void itShouldInitializeTransitionsTable();
-void itShouldAddAKeyWord();
-void itShouldAddSeveralKeywords();
-void transitionsTable_before();
-
-INITTESTCASE(transitionsTableTestCase)
-	REGISTER(itShouldCreateTransitionsTable)
-	REGISTER(itShouldDeleteTransitionsTable)
-	REGISTER(itShouldInitializeTransitionsTable)
-	REGISTER(itShouldAddAKeyWord)
-	REGISTER(itShouldAddSeveralKeywords)
-}
-
-#include "parser.h"
-#include "transitionsTable.h"
-
-extern TRANSITION transitionsTable[NUMBER_STATUS][NUMBER_CHARS];
-
-TEST(itShouldCreateTransitionsTable)	
+TEST(itShouldCreateTransitionsTable)
 	TRANS_TABLE *table = newTransitionsTable();
 	
 	assert(table != NULL);
@@ -80,7 +57,3 @@ TEST(itShouldAddSeveralKeywords)
 	free(token);
 	deleteTransitionsTable(table);
 ENDTEST
-
-void transitionsTable_before() {
-	//initializeTransitionsTable();
-}

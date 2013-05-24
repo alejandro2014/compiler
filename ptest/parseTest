@@ -1,0 +1,32 @@
+#!/bin/bash
+TEST_CASE_NAME=
+TEST_NAMES=testNames
+
+if [ -f $TEST_NAMES ]; then
+	rm $TEST_NAMES
+fi
+
+for i in `grep -e "TEST(" file.c | cut -f 2 -d "("`
+do
+	echo "${i%?}" >> $TEST_NAMES
+done
+
+cat $TEST_NAMES
+
+TEST_CASE_NAME=`grep @TestCase file.c | cut -f 2 -d " "`
+
+echo "#include \"testCase.h\""
+echo "void $TEST_CASE_NAME();"
+
+for i in `cat $TEST_NAMES`
+do
+	echo "void $i();"
+done
+
+echo "void $TEST_CASE_NAME() {"
+for i in `cat $TEST_NAMES`
+do
+	echo "void $i();"
+done
+echo "}"
+

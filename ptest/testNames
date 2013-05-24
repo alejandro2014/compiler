@@ -1,0 +1,5 @@
+itShouldCreateTransitionsTable
+itShouldDeleteTransitionsTable
+itShouldInitializeTransitionsTable
+itShouldAddAKeyWord
+itShouldAddSeveralKeywords

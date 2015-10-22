@@ -1,3 +1,0 @@
-make clean
-cp ./src/* .
-rm -fr src obj bin Makefile

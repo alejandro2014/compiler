@@ -2,7 +2,9 @@
 #include "parser.h"
 #include "parserTest.h"
 
-int main(int argn, char *argv) {
+void transitionsTableTestCase();
+
+int main(int argn, char **argv) {
 	transitionsTableTestCase();
 	parserTestCase();
 	return 0;

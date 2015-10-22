@@ -55,7 +55,7 @@ void addNumbers(TRANS_TABLE *transTable);
 void addStrings(TRANS_TABLE *transTable);
 void addKeywords(TRANS_TABLE *transTable);
 
-void addKeyword(TRANS_TABLE *transTable, unsigned char *keyword, int tokenType);
+void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType);
 
 void addTransition(TRANS_TABLE *transTable,
 				   int currentStatus,

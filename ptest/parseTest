@@ -1,6 +1,9 @@
 #!/bin/bash
 TEST_CASE_NAME=
 TEST_NAMES=testNames
+TESTS=testsFile
+FIRST_PART_FILE=firstPartFile
+CURRENT_FILE=file.c
 
 function writeFunctionsNames() {
 	for i in `cat $TEST_NAMES`
@@ -13,22 +16,17 @@ if [ -f $TEST_NAMES ]; then
 	rm $TEST_NAMES
 fi
 
-for i in `grep -e "TEST(" file.c | cut -f 2 -d "("`
+for i in `grep -e "TEST(" $CURRENT_FILE | cut -f 2 -d "("`
 do
 	echo "${i%?}" >> $TEST_NAMES
 done
 
-TEST_CASE_NAME=`grep @TestCase file.c | cut -f 2 -d " "`
-
-
-
-LINE_FIRST_TEST=`grep -n TEST file.c | head -n 1 | cut -f 1 -d ":"`
-TESTS=testsFile
-FIRST_PART_FILE=firstPartFile
-tail +$LINE_FIRST_TEST file.c > $TESTS
+	TEST_CASE_NAME=`grep @TestCase $CURRENT_FILE | cut -f 2 -d " "`
+LINE_FIRST_TEST=`grep -n TEST $CURRENT_FILE | head -n 1 | cut -f 1 -d ":"`
+tail +$LINE_FIRST_TEST $CURRENT_FILE > $TESTS
 
 NLINES_FIRST_PART=`expr 5 - 1`
-head file.c -n $NLINES_FIRST_PART > $FIRST_PART_FILE
+head $CURRENT_FILE -n $NLINES_FIRST_PART > $FIRST_PART_FILE
 
 cat $FIRST_PART_FILE
 echo "#include \"testCase.h\""

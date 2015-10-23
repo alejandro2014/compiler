@@ -41,9 +41,9 @@ typedef struct {
 typedef struct {
 	int numberOfStatus;
 	int numberOfChars;
-	TRANSITION **transitions;
-    int maxStateAlloc;
-    int offset;
+	TRANSITION *transitions;
+  int maxStateAlloc;
+  int offset;
 } TRANS_TABLE;
 
 TRANS_TABLE *newTransitionsTable();
@@ -59,7 +59,7 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType);
 
 void addTransition(TRANS_TABLE *transTable,
 				   int currentStatus,
-				   unsigned char charRead,
+				   char charRead,
 				   int nextStatus,
 				   functionTransition functionPointer);
 
@@ -67,5 +67,7 @@ void giveTokenBoolean(int *finish, TOKEN *token);
 void giveTokenInt(int *finish, TOKEN *token);
 void giveTokenError(int *finish, TOKEN *token);
 void giveTokenString(int *finish, TOKEN *token);
+
+TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead);
 
 #endif

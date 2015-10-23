@@ -2,48 +2,33 @@
 
 TRANS_TABLE *newTransitionsTable() {
 	TRANS_TABLE *table = (TRANS_TABLE *) malloc(sizeof(TRANS_TABLE));
-	TRANSITION **transitions = (TRANSITION **) malloc(sizeof(TRANSITION *) * NUMBER_STATUS);
-	TRANSITION *transitionsForAChar = NULL;
+	int transitionsNo = NUMBER_CHARS * NUMBER_STATUS;
+	TRANSITION *transitions = (TRANSITION *) malloc(sizeof(TRANSITION) * transitionsNo);
+	//TRANSITION *transitionsForAChar = NULL;
 	TRANSITION *transition = NULL;
 	int i, j;
 
-	for(i = 0; i < NUMBER_STATUS; i++) {
-		transitionsForAChar = (TRANSITION *) malloc(sizeof(TRANSITION) * NUMBER_CHARS);
-
-		for(j = 0; j < NUMBER_CHARS; j++) {
-			transition = transitionsForAChar + j;
-			transition->nextStatus = STATUS_ERROR;
-			transition->function = giveTokenError;
-		}
-
-		*(transitions + i) = transitionsForAChar;
+	for(i = 0; i < transitionsNo; i++) {
+		transition = transitions + i;
+		transition->nextStatus = STATUS_ERROR;
+		transition->function = giveTokenError;
+		//transitionsForAChar = (TRANSITION *) malloc(sizeof(TRANSITION) * NUMBER_CHARS);
+		//*(transitions + i) = transitionsForAChar;
 	}
 
 	table->transitions = transitions;
-    table->numberOfChars = NUMBER_CHARS;
-    table->numberOfStatus = NUMBER_STATUS;
-    table->maxStateAlloc = 0;
-    table->offset = 0;
+  table->numberOfChars = NUMBER_CHARS;
+  table->numberOfStatus = NUMBER_STATUS;
+  table->maxStateAlloc = 0;
+  table->offset = 0;
 
+	printf("Allocated table with %d statuses\n", transitionsNo);
 	return table;
 }
 
 void deleteTransitionsTable(TRANS_TABLE *table) {
-	TRANSITION **transitions = table->transitions;
-	TRANSITION *current = NULL;
-	int i, j;
-
-	for(i = 0; i < NUMBER_STATUS; i++) {
-		current = *(transitions + i);
-
-		free(current);
-		current = NULL;
-	}
-
-	free(transitions);
-
+	free(table->transitions);
 	free(table);
-	table = NULL;
 }
 
 void addTransitions(TRANS_TABLE *transTable) {
@@ -108,12 +93,17 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
     addTransition(transTable, currentStatus, 0x20, nextStatus, returnTokenFunction);
 }
 
-void addTransition(TRANS_TABLE *transTable, int currentStatus, unsigned char charRead, int nextStatus, functionTransition functionPointer) {
-	TRANSITION **transitions = transTable->transitions;
-	TRANSITION *currentTransition = transitions[currentStatus] + charRead;
+void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, functionTransition functionPointer) {
+	TRANSITION *currentTransition = getTransition(transTable, currentStatus, charRead);
 
+	//printf("currStatus: %d charRead: %c nextStatus: %d\n", currentStatus, charRead, nextStatus);
 	currentTransition->nextStatus = nextStatus;
 	currentTransition->function = functionPointer;
+}
+
+TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead) {
+	printf("currentStatus: %d charRead: %c %d offset: %d\n", currentStatus, charRead, charRead, charRead * NUMBER_CHARS + currentStatus);
+	return transTable->transitions + charRead * NUMBER_STATUS + currentStatus;
 }
 
 void giveTokenBoolean(int *finish, TOKEN *token) {

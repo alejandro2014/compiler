@@ -6,7 +6,6 @@
 
 void transitionsTableTestCase();
 void itShouldCreateTransitionsTable();
-void itShouldDeleteTransitionsTable();
 void itShouldInitializeTransitionsTable();
 void itShouldAddAKeyWord();
 void itShouldAddSeveralKeywords();
@@ -14,7 +13,6 @@ void transitionsTable_before();
 
 INITTESTCASE(transitionsTableTestCase)
 	REGISTER(itShouldCreateTransitionsTable)
-	REGISTER(itShouldDeleteTransitionsTable)
 	REGISTER(itShouldInitializeTransitionsTable)
 	REGISTER(itShouldAddAKeyWord)
 	REGISTER(itShouldAddSeveralKeywords)
@@ -31,18 +29,12 @@ TEST(itShouldCreateTransitionsTable)
 	deleteTransitionsTable(table);
 ENDTEST
 
-TEST(itShouldDeleteTransitionsTable)
-	/*TRANS_TABLE *table = newTransitionsTable();
-
-	deleteTransitionsTable(table);
-
-	assert(table == NULL);*/
-ENDTEST
-
 TEST(itShouldInitializeTransitionsTable)
 	TRANS_TABLE *table = newTransitionsTable();
+	int nextStatus = getTransition(table, 2, 't')->nextStatus;
+	printf("> Next status: %d\n", nextStatus);
 
-	assert(table->transitions[2]['t'].nextStatus == STATUS_ERROR);
+	assert(nextStatus == STATUS_ERROR);
 	deleteTransitionsTable(table);
 ENDTEST
 

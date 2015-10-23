@@ -6,12 +6,12 @@ TRANS_TABLE *newTransitionsTable() {
 	TRANSITION *transitions = (TRANSITION *) malloc(sizeof(TRANSITION) * transitionsNo);
 	//TRANSITION *transitionsForAChar = NULL;
 	TRANSITION *transition = NULL;
-	int i, j;
+	int i;
 
 	for(i = 0; i < transitionsNo; i++) {
 		transition = transitions + i;
 		transition->nextStatus = STATUS_ERROR;
-		transition->function = giveTokenError;
+		transition->function = &giveTokenError;
 		//transitionsForAChar = (TRANSITION *) malloc(sizeof(TRANSITION) * NUMBER_CHARS);
 		//*(transitions + i) = transitionsForAChar;
 	}
@@ -22,7 +22,7 @@ TRANS_TABLE *newTransitionsTable() {
   table->maxStateAlloc = 0;
   table->offset = 0;
 
-	printf("Allocated table with %d statuses\n", transitionsNo);
+	//printf("Allocated table with %d statuses\n", transitionsNo);
 	return table;
 }
 
@@ -71,7 +71,7 @@ void addKeywords(TRANS_TABLE *transTable) {
 void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
 	int length = strlen(keyword);
 	int i;
-	unsigned char currentChar;
+	char currentChar;
 	int currentStatus = STATUS_INITIAL;
 	int nextStatus;
 	functionTransition returnTokenFunction = NULL;
@@ -90,7 +90,7 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
 	}
 
 	addTransition(transTable, currentStatus, 0x00, nextStatus, returnTokenFunction);
-    addTransition(transTable, currentStatus, 0x20, nextStatus, returnTokenFunction);
+  addTransition(transTable, currentStatus, 0x20, nextStatus, returnTokenFunction);
 }
 
 void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, functionTransition functionPointer) {
@@ -102,7 +102,7 @@ void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, in
 }
 
 TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead) {
-	printf("currentStatus: %d charRead: %c %d offset: %d\n", currentStatus, charRead, charRead, charRead * NUMBER_CHARS + currentStatus);
+	//printf("currentStatus: %d charRead: %c %d offset: %d\n", currentStatus, charRead, charRead, charRead * NUMBER_CHARS + currentStatus);
 	return transTable->transitions + charRead * NUMBER_STATUS + currentStatus;
 }
 

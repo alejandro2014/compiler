@@ -32,7 +32,6 @@ ENDTEST
 TEST(itShouldInitializeTransitionsTable)
 	TRANS_TABLE *table = newTransitionsTable();
 	int nextStatus = getTransition(table, 2, 't')->nextStatus;
-	printf("> Next status: %d\n", nextStatus);
 
 	assert(nextStatus == STATUS_ERROR);
 	deleteTransitionsTable(table);

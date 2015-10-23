@@ -12,8 +12,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 
 	while(!finish) {
 		currentChar = *(text + offset);
-
-		currentTransition = transTable->transitions + currentChar * NUMBER_CHARS + currentStatus;
+		currentTransition = getTransition(transTable, currentStatus, currentChar);
 
 		if(currentTransition->function != NULL)
 			currentTransition->function(&finish, token);

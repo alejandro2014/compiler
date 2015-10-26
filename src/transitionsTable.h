@@ -12,19 +12,8 @@
 #define NUMBER_CHARS 256
 #define NUMBER_STATUS 50
 
-#define STATUS_INITIAL 0
-#define STATUS_READ_DIGIT 1
-#define STATUS_GIVE_TOKEN 2
-#define STATUS_READ_A 3
-#define STATUS_READ_E 4
-#define STATUS_READ_F 5
-#define STATUS_READ_L 6
-#define STATUS_READ_R 7
-#define STATUS_READ_S 8
-#define STATUS_READ_T 9
-#define STATUS_READ_U 10
-#define STATUS_READ_STRING 11
-
+#define STATUS_RETURNING 0
+#define STATUS_INITIAL 1
 #define STATUS_ERROR 100
 
 typedef struct {
@@ -44,12 +33,14 @@ typedef struct {
 	TRANSITION *transitions;
   int maxStateAlloc;
   int offset;
+	int takenStatusNo;
 } TRANS_TABLE;
 
 TRANS_TABLE *newTransitionsTable();
 void deleteTransitionsTable(TRANS_TABLE *table);
 
 void addTransitions(TRANS_TABLE *transTable);
+void addFinalTransitions(TRANS_TABLE *table, int currentStatus, int tokenType);
 
 void addNumbers(TRANS_TABLE *transTable);
 void addStrings(TRANS_TABLE *transTable);

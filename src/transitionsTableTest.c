@@ -1,3 +1,8 @@
+/*
+TODO There is an error in the test case, in the function itShouldAddSeveralKeywords
+it doesn't finish the test properly. I guess that this is because an initialization
+problem or the status is incorrect from token to token
+*/
 //#include "transitionsTableTest.h"
 
 #include "testCase.h" //-
@@ -60,14 +65,14 @@ TEST(itShouldAddSeveralKeywords)
 	addKeyword(table, booleanText, TOKEN_BOOLEAN);
 	addKeyword(table, intText, TOKEN_INTEGER);
 
+	token = parse(table, intText);
+	assert(token->type == TOKEN_INTEGER);
+	free(token);
+
 	token = parse(table, booleanText);
 	assert(token->type == TOKEN_BOOLEAN);
 	free(token);
 
-	token = parse(table, intText);
-	assert(token->type == TOKEN_INTEGER);
-
-	free(token);
 	deleteTransitionsTable(table);
 ENDTEST
 

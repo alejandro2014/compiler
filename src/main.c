@@ -1,11 +1,21 @@
 #include <stdio.h>
 #include "parser.h"
-#include "parserTest.h"
-
-void transitionsTableTestCase();
 
 int main(int argn, char **argv) {
-	transitionsTableTestCase();
-	parserTestCase();
+	char *string = "false true";
+	TRANS_TABLE *table = newTransitionsTable();
+	TOKEN *token = NULL;
+
+	addKeyword(table, "true", TOKEN_BOOLEAN);
+	addKeyword(table, "false", TOKEN_BOOLEAN);
+	addNumbers(table);
+
+	token = parse(table, string);
+	printf("Token type: %d\n", token->type);
+
+	token = parse(table, string);
+	printf("Token type: %d\n", token->type);
+
+	deleteTransitionsTable(table);
 	return 0;
 }

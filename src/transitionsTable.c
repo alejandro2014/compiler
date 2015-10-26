@@ -54,14 +54,15 @@ void addNumbers(TRANS_TABLE *transTable) {
 }
 
 void addStrings(TRANS_TABLE *transTable) {
-    /*int i;
+	int i;
 
-    addTransition(transTable, STATUS_INITIAL, '\"', STATUS_READ_STRING, NULL);
+  addTransition(transTable, STATUS_INITIAL, '\"', STATUS_READ_STRING, NULL);
 
-	for(i = 0; i < 256; i++)
+	for(i = 0; i < 256; i++) {
 		addTransition(transTable, STATUS_READ_STRING, i, STATUS_READ_STRING, NULL);
+	}
 
-	addTransition(transTable, STATUS_READ_STRING, '\"', STATUS_GIVE_TOKEN, giveTokenString);*/
+	addTransition(transTable, STATUS_READ_STRING, '\"', STATUS_GIVE_TOKEN, giveTokenString);
 }
 
 void addKeywords(TRANS_TABLE *transTable) {

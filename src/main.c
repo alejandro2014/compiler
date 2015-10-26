@@ -2,7 +2,26 @@
 #include "parser.h"
 
 int main(int argn, char **argv) {
-	char *string = "false true";
+	/*
+	# Comment in the JSON
+
+	{
+		[
+			"menu": {
+				"coords" {
+					"x": 23,
+					"y": 45,
+					"height": 10,
+					"width": 20
+				}
+			},
+			"menu2": {
+				...
+			}
+		]
+	}
+	*/
+	char *string = "true false";
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;
 

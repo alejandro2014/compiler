@@ -21,13 +21,17 @@ int main(int argn, char **argv) {
 		]
 	}
 	*/
-	char *string = "true false";
+	char *string = "true false \"A nice string\"";
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;
 
 	addKeyword(table, "true", TOKEN_BOOLEAN);
 	addKeyword(table, "false", TOKEN_BOOLEAN);
-	addNumbers(table);
+
+	addStrings(table);
+
+	token = parse(table, string);
+	printf("Token type: %d\n", token->type);
 
 	token = parse(table, string);
 	printf("Token type: %d\n", token->type);

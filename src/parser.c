@@ -8,7 +8,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	TRANSITION *currentTransition;
 
   printf("Starting at position %d\n", offset);
-	
+
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
 	memset(token, 0, sizeof(TOKEN));
 
@@ -26,7 +26,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 		offset++;
 	}
 
-  transTable->offset += offset;
+  transTable->offset = offset;
 
 	return token;
 }

@@ -18,6 +18,7 @@
 
 typedef struct {
 	char type;
+	char *content;
 } TOKEN;
 
 typedef void (*functionTransition)(int*, TOKEN*);

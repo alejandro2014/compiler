@@ -4,7 +4,6 @@ TRANS_TABLE *newTransitionsTable() {
 	TRANS_TABLE *table = (TRANS_TABLE *) malloc(sizeof(TRANS_TABLE));
 	int transitionsNo = NUMBER_CHARS * NUMBER_STATUS;
 	TRANSITION *transitions = (TRANSITION *) malloc(sizeof(TRANSITION) * transitionsNo);
-	//TRANSITION *transitionsForAChar = NULL;
 	TRANSITION *transition = NULL;
 	int i;
 
@@ -12,8 +11,6 @@ TRANS_TABLE *newTransitionsTable() {
 		transition = transitions + i;
 		transition->nextStatus = STATUS_ERROR;
 		transition->function = &giveTokenError;
-		//transitionsForAChar = (TRANSITION *) malloc(sizeof(TRANSITION) * NUMBER_CHARS);
-		//*(transitions + i) = transitionsForAChar;
 	}
 
 	table->transitions = transitions;
@@ -23,7 +20,6 @@ TRANS_TABLE *newTransitionsTable() {
   table->offset = 0;
 	table->takenStatusNo = 1;
 
-	//printf("Allocated table with %d statuses\n", transitionsNo);
 	return table;
 }
 
@@ -39,18 +35,20 @@ void addTransitions(TRANS_TABLE *transTable) {
 }
 
 void addNumbers(TRANS_TABLE *transTable) {
-    /*int i;
+	int readingDigit = transTable->takenStatusNo + 1;
+	int i;
 
-    for(i = 0x30; i < 0x40; i++)
-			addTransition(transTable, STATUS_INITIAL, i, STATUS_READ_DIGIT, NULL);
+	for(i = 0x30; i < 0x40; i++) {
+		addTransition(transTable, STATUS_INITIAL, i, readingDigit, NULL);
+	}
 
-		addTransition(transTable, STATUS_INITIAL, '-', STATUS_READ_DIGIT, NULL);
+  for(i = 0x30; i < 0x40; i++) {
+		addTransition(transTable, readingDigit, i, readingDigit, NULL);
+	}
 
-    for(i = 0x30; i < 0x40; i++)
-			addTransition(transTable, STATUS_READ_DIGIT, i, STATUS_READ_DIGIT, NULL);
+	addFinalTransitions(transTable, readingDigit, TOKEN_INTEGER);
 
-		addTransition(transTable, STATUS_READ_DIGIT, 0x00, STATUS_GIVE_TOKEN, giveTokenInt);
-    addTransition(transTable, STATUS_READ_DIGIT, 0x20, STATUS_GIVE_TOKEN, giveTokenInt);*/
+	transTable->takenStatusNo += 1;
 }
 
 void addStrings(TRANS_TABLE *transTable) {
@@ -60,9 +58,8 @@ void addStrings(TRANS_TABLE *transTable) {
 
   addTransition(transTable, STATUS_INITIAL, '\"', openQuoteStatus, NULL);
 
-	addTransition(transTable, openQuoteStatus, 0x20, openQuoteStatus, NULL);
-
-	addTransition(transTable, openQuoteStatus, 0x5f, openQuoteStatus, NULL);
+	addTransition(transTable, openQuoteStatus, ' ', openQuoteStatus, NULL);
+	addTransition(transTable, openQuoteStatus, '_', openQuoteStatus, NULL);
 
 	for(i = 0x30; i < 0x40; i++) {
 		addTransition(transTable, openQuoteStatus, i, openQuoteStatus, NULL);
@@ -78,6 +75,8 @@ void addStrings(TRANS_TABLE *transTable) {
 
 	addTransition(transTable, openQuoteStatus, '\"', closeQuoteStatus, NULL);
 	addFinalTransitions(transTable, closeQuoteStatus, TOKEN_STRING);
+
+	transTable->takenStatusNo += 2;
 }
 
 void addKeywords(TRANS_TABLE *transTable) {

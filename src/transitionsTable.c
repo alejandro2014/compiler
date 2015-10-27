@@ -31,17 +31,18 @@ void addTransitions(TRANS_TABLE *transTable) {
     addNumbers(transTable);
 		addStrings(transTable);
 		addKeywords(transTable);
+		addSpecialChars(transTable);
 }
 
 void addNumbers(TRANS_TABLE *transTable) {
 	int readingDigit = transTable->takenStatusNo + 1;
 	int i;
 
-	for(i = 0x30; i < 0x40; i++) {
+	for(i = 0x30; i < 0x3a; i++) {
 		addTransition(transTable, STATUS_INITIAL, i, readingDigit, NO_TOKEN);
 	}
 
-  for(i = 0x30; i < 0x40; i++) {
+  for(i = 0x30; i < 0x3a; i++) {
 		addTransition(transTable, readingDigit, i, readingDigit, NO_TOKEN);
 	}
 
@@ -60,7 +61,7 @@ void addStrings(TRANS_TABLE *transTable) {
 	addTransition(transTable, openQuoteStatus, ' ', openQuoteStatus, NO_TOKEN);
 	addTransition(transTable, openQuoteStatus, '_', openQuoteStatus, NO_TOKEN);
 
-	for(i = 0x30; i < 0x40; i++) {
+	for(i = 0x30; i < 0x3a; i++) {
 		addTransition(transTable, openQuoteStatus, i, openQuoteStatus, NO_TOKEN);
 	}
 

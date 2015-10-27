@@ -21,6 +21,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 		offset++;
 	}
 
+	token->type = currentTransition->tokenReturned;
   transTable->offset = offset;
 
 	return token;

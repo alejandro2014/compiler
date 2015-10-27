@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#define NO_TOKEN 0
 #define TOKEN_INTEGER 1
 #define TOKEN_BOOLEAN 2
 #define TOKEN_STRING 3
@@ -29,6 +30,7 @@ typedef struct {
 
 typedef struct {
 	int nextStatus;
+	int tokenReturned;
 } TRANSITION;
 
 typedef struct {
@@ -45,7 +47,7 @@ void deleteTransitionsTable(TRANS_TABLE *table);
 
 void addTransitions(TRANS_TABLE *transTable);
 void addFinalTransitions(TRANS_TABLE *table, int currentStatus, int tokenType);
-void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus);
+void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, int tokenReturned);
 TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead);
 
 void addNumbers(TRANS_TABLE *transTable);

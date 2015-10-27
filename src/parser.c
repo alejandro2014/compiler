@@ -12,7 +12,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
 	memset(token, 0, sizeof(TOKEN));
 
-	while(!finish) {
+	while(currentStatus != STATUS_RETURNING) {
 		currentChar = *(text + offset);
 		printf(">> %c\n", currentChar);
 

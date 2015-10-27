@@ -121,6 +121,7 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
 void addFinalTransitions(TRANS_TABLE *table, int currentStatus, int tokenType) {
 	addTransition(table, currentStatus, 0x00, STATUS_RETURNING, tokenType);
 	addTransition(table, currentStatus, 0x20, STATUS_RETURNING, tokenType);
+	addTransition(table, currentStatus, 0x0a, STATUS_RETURNING, tokenType);
 }
 
 void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, int tokenReturned) {

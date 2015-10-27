@@ -24,7 +24,7 @@ char *readJsonFile(char *path);
 char *getTokenName(int tokenNumber);
 
 int main(int argn, char **argv) {
-	char *fileName = "menus.json";
+	char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
 	char *string = readJsonFile(fileName);
 	int tokensNo = 7;
 	TRANS_TABLE *table = newTransitionsTable();
@@ -49,7 +49,19 @@ int main(int argn, char **argv) {
 }
 
 char *readJsonFile(char *path) {
-	return "1234 true {{\"A nice string\" false 1234";
+	char *buffer;
+	int fileSize;
+
+	FILE *file = fopen(path, "r");
+	fseek(file, 0, SEEK_END);
+	fileSize = ftell(file);
+
+	buffer = (char *) malloc(sizeof(char) * fileSize);
+	fseek(file, 0, SEEK_SET);
+	fread(buffer, 1, fileSize, file);
+	fclose(file);
+
+	return buffer;
 }
 
 char *getTokenName(int tokenNumber) {

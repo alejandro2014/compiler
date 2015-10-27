@@ -8,6 +8,7 @@
 #define TOKEN_INTEGER 1
 #define TOKEN_BOOLEAN 2
 #define TOKEN_STRING 3
+#define TOKEN_CURLY_OPEN 4
 
 #define NUMBER_CHARS 256
 #define NUMBER_STATUS 50
@@ -55,10 +56,14 @@ void addTransition(TRANS_TABLE *transTable,
 				   int nextStatus,
 				   functionTransition functionPointer);
 
+void addSpecialChars(TRANS_TABLE *table);
+void addSpecialChar(TRANS_TABLE *table, char character, int tokenType);
+
 void giveTokenBoolean(int *finish, TOKEN *token);
 void giveTokenInt(int *finish, TOKEN *token);
 void giveTokenError(int *finish, TOKEN *token);
 void giveTokenString(int *finish, TOKEN *token);
+void giveTokenSpecialChar(int *finish, TOKEN *token);
 
 TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead);
 

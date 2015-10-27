@@ -4,7 +4,7 @@
 {
 	[
 		"menu": {
-			"coords" {
+			"coords": {
 				"x": 23,
 				"y": 45,
 				"height": 10,
@@ -21,17 +21,13 @@
 #include "parser.h"
 
 int main(int argn, char **argv) {
-	char *string = "1234 true \"A nice string\" false 1234";
-	int tokensNo = 5;
+	char *string = "1234 true {{\"A nice string\" false 1234";
+	int tokensNo = 7;
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;
 	int i;
 
-	addKeyword(table, "true", TOKEN_BOOLEAN);
-	addKeyword(table, "false", TOKEN_BOOLEAN);
-
-	addStrings(table);
-	addNumbers(table);
+	addTransitions(table);
 
 	for(i = 0; i < tokensNo; i++) {
 		token = parse(table, string);

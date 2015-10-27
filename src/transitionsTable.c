@@ -79,6 +79,14 @@ void addStrings(TRANS_TABLE *transTable) {
 	transTable->takenStatusNo += 2;
 }
 
+void addSpecialChars(TRANS_TABLE *table) {
+		addSpecialChar(table, '{', TOKEN_CURLY_OPEN);
+}
+
+void addSpecialChar(TRANS_TABLE *table, char character, int tokenType) {
+		addTransition(table, STATUS_INITIAL, character, STATUS_RETURNING, giveTokenSpecialChar);
+}
+
 void addKeywords(TRANS_TABLE *transTable) {
     addKeyword(transTable, "true", TOKEN_BOOLEAN);
 		addKeyword(transTable, "false", TOKEN_BOOLEAN);
@@ -127,7 +135,6 @@ void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, in
 }
 
 TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead) {
-	//printf("currentStatus: %d charRead: %c %d offset: %d\n", currentStatus, charRead, charRead, charRead * NUMBER_CHARS + currentStatus);
 	return transTable->transitions + charRead * NUMBER_STATUS + currentStatus;
 }
 
@@ -148,4 +155,9 @@ void giveTokenError(int *finish, TOKEN *token) {
 void giveTokenString(int *finish, TOKEN *token) {
 	*finish = 1;
 	token->type = TOKEN_STRING;
+}
+
+void giveTokenSpecialChar(int *finish, TOKEN *token) {
+	*finish = 1;
+	//token->type = TOKEN_SPECIAL_CHAR;
 }

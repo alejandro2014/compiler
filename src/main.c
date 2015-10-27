@@ -31,7 +31,13 @@ int main(int argn, char **argv) {
 
 	for(i = 0; i < tokensNo; i++) {
 		token = parse(table, string);
-		printf("Token type: %d\n", token->type);
+		printf("Token type: %d ", token->type);
+
+		if(token->content) {
+			printf("content: %s", token->content);
+		}
+
+		printf("\n");
 	}
 
 	deleteTransitionsTable(table);

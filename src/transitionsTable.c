@@ -126,7 +126,6 @@ void addFinalTransitions(TRANS_TABLE *table, int currentStatus, int tokenType) {
 void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, int tokenReturned) {
 	TRANSITION *currentTransition = getTransition(transTable, currentStatus, charRead);
 
-	printf("currStatus: %d charRead: %c %x nextStatus: %d\n", currentStatus, charRead, charRead, nextStatus);
 	currentTransition->nextStatus = nextStatus;
 	currentTransition->tokenReturned = tokenReturned;
 }

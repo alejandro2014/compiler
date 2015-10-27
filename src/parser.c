@@ -19,8 +19,8 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	}
 
 	token->type = currentTransition->tokenReturned;
-	
-	if(token->type == TOKEN_STRING || token->type == TOKEN_INTEGER) {
+
+	if(token->type == TOKEN_STRING || token->type == TOKEN_INTEGER || token->type == TOKEN_BOOLEAN) {
 		lengthToken = offset - transTable->offset + 1;
 		token->content = (char *) malloc(sizeof(char) * lengthToken);
 		memset(token->content, 0, lengthToken);

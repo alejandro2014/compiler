@@ -17,11 +17,6 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 		printf(">> %c\n", currentChar);
 
 		currentTransition = getTransition(transTable, currentStatus, currentChar);
-
-		if(currentTransition->function != NULL) {
-			currentTransition->function(&finish, token);
-		}
-
 		currentStatus = currentTransition->nextStatus;
 		offset++;
 	}

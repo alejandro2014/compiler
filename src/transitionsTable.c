@@ -10,7 +10,6 @@ TRANS_TABLE *newTransitionsTable() {
 	for(i = 0; i < transitionsNo; i++) {
 		transition = transitions + i;
 		transition->nextStatus = STATUS_ERROR;
-		transition->function = &giveTokenError;
 	}
 
 	table->transitions = transitions;
@@ -39,11 +38,11 @@ void addNumbers(TRANS_TABLE *transTable) {
 	int i;
 
 	for(i = 0x30; i < 0x40; i++) {
-		addTransition(transTable, STATUS_INITIAL, i, readingDigit, NULL);
+		addTransition(transTable, STATUS_INITIAL, i, readingDigit);
 	}
 
   for(i = 0x30; i < 0x40; i++) {
-		addTransition(transTable, readingDigit, i, readingDigit, NULL);
+		addTransition(transTable, readingDigit, i, readingDigit);
 	}
 
 	addFinalTransitions(transTable, readingDigit, TOKEN_INTEGER);
@@ -56,24 +55,24 @@ void addStrings(TRANS_TABLE *transTable) {
 	int closeQuoteStatus = openQuoteStatus + 1;
 	int i;
 
-  addTransition(transTable, STATUS_INITIAL, '\"', openQuoteStatus, NULL);
+  addTransition(transTable, STATUS_INITIAL, '\"', openQuoteStatus);
 
-	addTransition(transTable, openQuoteStatus, ' ', openQuoteStatus, NULL);
-	addTransition(transTable, openQuoteStatus, '_', openQuoteStatus, NULL);
+	addTransition(transTable, openQuoteStatus, ' ', openQuoteStatus);
+	addTransition(transTable, openQuoteStatus, '_', openQuoteStatus);
 
 	for(i = 0x30; i < 0x40; i++) {
-		addTransition(transTable, openQuoteStatus, i, openQuoteStatus, NULL);
+		addTransition(transTable, openQuoteStatus, i, openQuoteStatus);
 	}
 
 	for(i = 0x41; i < 0x5a; i++) {
-		addTransition(transTable, openQuoteStatus, i, openQuoteStatus, NULL);
+		addTransition(transTable, openQuoteStatus, i, openQuoteStatus);
 	}
 
 	for(i = 0x61; i < 0x7a; i++) {
-		addTransition(transTable, openQuoteStatus, i, openQuoteStatus, NULL);
+		addTransition(transTable, openQuoteStatus, i, openQuoteStatus);
 	}
 
-	addTransition(transTable, openQuoteStatus, '\"', closeQuoteStatus, NULL);
+	addTransition(transTable, openQuoteStatus, '\"', closeQuoteStatus);
 	addFinalTransitions(transTable, closeQuoteStatus, TOKEN_STRING);
 
 	transTable->takenStatusNo += 2;
@@ -81,10 +80,15 @@ void addStrings(TRANS_TABLE *transTable) {
 
 void addSpecialChars(TRANS_TABLE *table) {
 		addSpecialChar(table, '{', TOKEN_CURLY_OPEN);
+		addSpecialChar(table, '}', TOKEN_CURLY_CLOSE);
+		addSpecialChar(table, '[', TOKEN_SQUARE_OPEN);
+		addSpecialChar(table, ']', TOKEN_SQUARE_CLOSE);
+		addSpecialChar(table, ':', TOKEN_COLON);
+		addSpecialChar(table, ',', TOKEN_COMMA);
 }
 
 void addSpecialChar(TRANS_TABLE *table, char character, int tokenType) {
-		addTransition(table, STATUS_INITIAL, character, STATUS_RETURNING, giveTokenSpecialChar);
+		addTransition(table, STATUS_INITIAL, character, STATUS_RETURNING);
 }
 
 void addKeywords(TRANS_TABLE *transTable) {
@@ -102,7 +106,7 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
 	for(i = 0; i < length; i++) {
 		currentChar = *(keyword + i);
 
-		addTransition(transTable, currentStatus, currentChar, nextStatus, NULL);
+		addTransition(transTable, currentStatus, currentChar, nextStatus);
 
 		currentStatus = nextStatus;
 		nextStatus = currentStatus + 1;
@@ -114,50 +118,17 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType) {
 }
 
 void addFinalTransitions(TRANS_TABLE *table, int currentStatus, int tokenType) {
-	functionTransition returnTokenFunction = NULL;
-
-	switch(tokenType) {
-		case TOKEN_BOOLEAN: returnTokenFunction = giveTokenBoolean; break;
-		case TOKEN_INTEGER: returnTokenFunction = giveTokenInt; break;
-		case TOKEN_STRING: returnTokenFunction = giveTokenString; break;
-	}
-
-	addTransition(table, currentStatus, 0x00, STATUS_RETURNING, returnTokenFunction);
-	addTransition(table, currentStatus, 0x20, STATUS_RETURNING, returnTokenFunction);
+	addTransition(table, currentStatus, 0x00, STATUS_RETURNING);
+	addTransition(table, currentStatus, 0x20, STATUS_RETURNING);
 }
 
-void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, functionTransition functionPointer) {
+void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus) {
 	TRANSITION *currentTransition = getTransition(transTable, currentStatus, charRead);
 
-	printf("currStatus: %d charRead: %c %x nextStatus: %d functionPointer: %p\n", currentStatus, charRead, charRead, nextStatus, functionPointer);
+	printf("currStatus: %d charRead: %c %x nextStatus: %d\n", currentStatus, charRead, charRead, nextStatus);
 	currentTransition->nextStatus = nextStatus;
-	currentTransition->function = functionPointer;
 }
 
 TRANSITION *getTransition(TRANS_TABLE *transTable, int currentStatus, char charRead) {
 	return transTable->transitions + charRead * NUMBER_STATUS + currentStatus;
-}
-
-void giveTokenBoolean(int *finish, TOKEN *token) {
-	*finish = 1;
-	token->type = TOKEN_BOOLEAN;
-}
-
-void giveTokenInt(int *finish, TOKEN *token) {
-	*finish = 1;
-	token->type = TOKEN_INTEGER;
-}
-
-void giveTokenError(int *finish, TOKEN *token) {
-	*finish = 1;
-}
-
-void giveTokenString(int *finish, TOKEN *token) {
-	*finish = 1;
-	token->type = TOKEN_STRING;
-}
-
-void giveTokenSpecialChar(int *finish, TOKEN *token) {
-	*finish = 1;
-	//token->type = TOKEN_SPECIAL_CHAR;
 }

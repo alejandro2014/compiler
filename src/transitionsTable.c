@@ -32,6 +32,12 @@ void addTransitions(TRANS_TABLE *transTable) {
 		addStrings(transTable);
 		addKeywords(transTable);
 		addSpecialChars(transTable);
+		addNeutralChars(transTable);
+}
+
+void addNeutralChars(TRANS_TABLE *table) {
+		addTransition(table, STATUS_INITIAL, 0x20, STATUS_INITIAL, NO_TOKEN);
+		addTransition(table, STATUS_INITIAL, 0x0a, STATUS_INITIAL, NO_TOKEN);
 }
 
 void addNumbers(TRANS_TABLE *transTable) {
@@ -73,8 +79,7 @@ void addStrings(TRANS_TABLE *transTable) {
 		addTransition(transTable, openQuoteStatus, i, openQuoteStatus, NO_TOKEN);
 	}
 
-	addTransition(transTable, openQuoteStatus, '\"', closeQuoteStatus, NO_TOKEN);
-	addFinalTransitions(transTable, closeQuoteStatus, TOKEN_STRING);
+	addTransition(transTable, openQuoteStatus, '\"', STATUS_RETURNING, TOKEN_STRING);
 
 	transTable->takenStatusNo += 2;
 }
@@ -127,6 +132,7 @@ void addFinalTransitions(TRANS_TABLE *table, int currentStatus, int tokenType) {
 void addTransition(TRANS_TABLE *transTable, int currentStatus, char charRead, int nextStatus, int tokenReturned) {
 	TRANSITION *currentTransition = getTransition(transTable, currentStatus, charRead);
 
+	//printf("(%d, %c %x) -> %d\n", currentStatus, charRead, charRead, nextStatus);
 	currentTransition->nextStatus = nextStatus;
 	currentTransition->tokenReturned = tokenReturned;
 }

@@ -1,22 +1,3 @@
-/*
-# Comment in the JSON
-
-{
-	[
-		"menu": {
-			"coords": {
-				"x": 23,
-				"y": 45,
-				"height": 10,
-				"width": 20
-			}
-		},
-		"menu2": {
-			...
-		}
-	]
-}
-*/
 #include <stdio.h>
 #include "parser.h"
 
@@ -35,7 +16,7 @@ int main(int argn, char **argv) {
 
 	for(i = 0; i < tokensNo; i++) {
 		token = parse(table, string);
-		printf("[%s] ", getTokenName(token->type));
+		printf("[%s]", getTokenName(token->type));
 
 		if(token->content) {
 			printf(" %s", token->content);

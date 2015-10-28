@@ -59,4 +59,6 @@ void addKeyword(TRANS_TABLE *transTable, char *keyword, int tokenType);
 void addSpecialChars(TRANS_TABLE *table);
 void addSpecialChar(TRANS_TABLE *table, char character, int tokenType);
 
+void addNeutralChars(TRANS_TABLE *table);
+
 #endif

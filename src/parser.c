@@ -7,15 +7,23 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	int finish = 0;
 	int lengthToken = 0;
 	TRANSITION *currentTransition;
+	char *trimmedToken;
 
 	TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
 	memset(token, 0, sizeof(TOKEN));
 
 	while(currentStatus != STATUS_RETURNING) {
-		currentChar = *(text + offset);
+		currentChar = *(text + (offset++));
+
+		if(currentChar == 0x0a || currentChar == 0x20) {
+				transTable->offset++;
+				continue;
+		}
+
 		currentTransition = getTransition(transTable, currentStatus, currentChar);
+		//printf("> [%d, %c %x]\n", currentStatus, currentChar, currentChar);
+
 		currentStatus = currentTransition->nextStatus;
-		offset++;
 	}
 
 	token->type = currentTransition->tokenReturned;

@@ -15,7 +15,11 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	while(currentStatus != STATUS_RETURNING) {
 		currentChar = *(text + (offset++));
 
-		//printf("> [%c %x]\n", currentChar, currentChar);
+		if(currentChar == 0x00) {
+			currentStatus = STATUS_RETURNING;
+			continue;
+		}
+
 		if(currentChar == 0x0a || currentChar == 0x20) {
 				transTable->offset++;
 				continue;

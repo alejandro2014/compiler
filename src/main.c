@@ -7,11 +7,12 @@ char *getTokenName(int tokenNumber);
 int main(int argn, char **argv) {
 	char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
 	char *string = readJsonFile(fileName);
-	int tokensNo = 7;
+	int tokensNo = 15;
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;
 	int i;
 
+	printf("%s\n", string);
 	addTransitions(table);
 
 	for(i = 0; i < tokensNo; i++) {

@@ -15,6 +15,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	while(currentStatus != STATUS_RETURNING) {
 		currentChar = *(text + (offset++));
 
+		//printf("> [%c %x]\n", currentChar, currentChar);
 		if(currentChar == 0x0a || currentChar == 0x20) {
 				transTable->offset++;
 				continue;
@@ -29,7 +30,12 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 	token->type = currentTransition->tokenReturned;
 
 	if(token->type == TOKEN_STRING || token->type == TOKEN_INTEGER || token->type == TOKEN_BOOLEAN) {
-		lengthToken = offset - transTable->offset + 1;
+		if(token->type == TOKEN_INTEGER) {
+			lengthToken = offset - transTable->offset;
+		} else {
+			lengthToken = offset - transTable->offset + 1;
+		}
+
 		token->content = (char *) malloc(sizeof(char) * lengthToken);
 		memset(token->content, 0, lengthToken);
 		memcpy(token->content, text + transTable->offset, lengthToken - 1);

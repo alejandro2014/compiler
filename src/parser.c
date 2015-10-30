@@ -36,6 +36,10 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
     if(token->type == TOKEN_STRING || token->type == TOKEN_INTEGER || token->type == TOKEN_BOOLEAN) {
         token->content = getContentToken(text, transTable->offset, offset, token->type);
     }
+    
+    if(token->type == TOKEN_INTEGER) {
+        offset--;
+    }
 
     transTable->offset = offset;
 
@@ -46,14 +50,33 @@ char *getContentToken(char *text, int iniPos, int endPos, int tokenType) {
     switch(tokenType) {
         case TOKEN_STRING:
             iniPos++;
+            endPos-=2;
+            break;
+        case TOKEN_INTEGER:
+            moveOffsetInteger(text, &endPos);
             break;
     }
     
-    int lengthToken = endPos - iniPos;
-    char *content = (char *) malloc(sizeof(char) * lengthToken);
+    int lengthToken = endPos - iniPos + 1;
+    char *content = (char *) malloc(sizeof(char) * (lengthToken + 1));
     
-    memset(content, 0, lengthToken);
-    memcpy(content, text + iniPos, lengthToken - 1);
+    memset(content, 0, lengthToken + 1);
+    memcpy(content, text + iniPos, lengthToken);
     
     return content;
+}
+
+void moveOffsetInteger(char *string, int *offset) {
+    int currentOffset = *offset;
+    char currentChar = *(string + currentOffset);
+    
+    //printf(">> Current char: %c %x>\n", currentChar, currentChar);
+    
+    while(currentChar < 0x30 || currentChar > 0x39) {
+        currentOffset--;
+        currentChar = *(string + currentOffset);
+        //printf(">> Current char: %c %x>\n", currentChar, currentChar);
+    }
+    
+    *offset = currentOffset;
 }

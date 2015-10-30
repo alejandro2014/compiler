@@ -48,7 +48,7 @@ void addNumbers(TRANS_TABLE *transTable) {
         addTransition(transTable, STATUS_INITIAL, i, readingDigit, NO_TOKEN);
     }
 
-  for(i = 0x30; i < 0x3a; i++) {
+    for(i = 0x30; i < 0x3a; i++) {
         addTransition(transTable, readingDigit, i, readingDigit, NO_TOKEN);
     }
 

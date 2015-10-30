@@ -4,6 +4,6 @@
 #include "transitionsTable.h"
 
 TOKEN *parse(TRANS_TABLE *transTable, char *text);
-char *getContentToken(char *text, int iniPos, int endPos);
+char *getContentToken(char *text, int iniPos, int endPos, int tokenType);
 
 #endif

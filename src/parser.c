@@ -34,7 +34,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
     token->type = currentTransition->tokenReturned;
     
     if(token->type == TOKEN_STRING || token->type == TOKEN_INTEGER || token->type == TOKEN_BOOLEAN) {
-        token->content = getContentToken(text, transTable->offset, offset);
+        token->content = getContentToken(text, transTable->offset, offset, token->type);
     }
 
     transTable->offset = offset;
@@ -42,7 +42,13 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
     return token;
 }
 
-char *getContentToken(char *text, int iniPos, int endPos) {
+char *getContentToken(char *text, int iniPos, int endPos, int tokenType) {
+    switch(tokenType) {
+        case TOKEN_STRING:
+            iniPos++;
+            break;
+    }
+    
     int lengthToken = endPos - iniPos;
     char *content = (char *) malloc(sizeof(char) * lengthToken);
     

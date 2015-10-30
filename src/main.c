@@ -5,7 +5,8 @@ char *readJsonFile(char *path);
 char *getTokenName(int tokenNumber);
 
 int main(int argn, char **argv) {
-	char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
+	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
+	char *fileName = "/home/alejandro/programs/compiler/testdata/menus.json";
 	char *string = readJsonFile(fileName);
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;

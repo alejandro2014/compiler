@@ -3,7 +3,7 @@
 TOKEN *parse(TRANS_TABLE *transTable, char *text) {
     int currentStatus = STATUS_INITIAL;
     int offset = transTable->offset;
-    char currentChar = *(text + offset);
+    char currentChar;
     int finish = 0;
     int lengthToken = 0;
     TRANSITION *currentTransition;
@@ -32,7 +32,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 
 	if(eof) return NULL;
 	
-    token->type = currentTransition->tokenReturned;
+	token->type = currentTransition->tokenReturned;
     token->content = getContentToken(text, transTable->offset, offset, token->type);
     
     if(token->type == TOKEN_INTEGER) {

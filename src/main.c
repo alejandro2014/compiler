@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "parser.h"
 
-char *readJsonFile(char *path);
+char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
 
 int main(int argn, char **argv) {
 	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
 	char *fileName = "/home/alejandro/programs/compiler/testdata/menus.json";
-	char *string = readJsonFile(fileName);
+	char *string = loadFile(fileName);
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;
 	int finish = 0;
@@ -22,18 +22,14 @@ int main(int argn, char **argv) {
 			continue;
 		}
 		
-		printf("[%s]", getTokenName(token->type));
-
-		if(token->content) printf(" %s", token->content);
-
-		printf("\n");
+		printf("[%s] %s\n", getTokenName(token->type), token->content);
 	}
 
 	deleteTransitionsTable(table);
 	return 0;
 }
 
-char *readJsonFile(char *path) {
+char *loadFile(char *path) {
 	char *buffer;
 	int fileSize;
 
@@ -53,20 +49,16 @@ char *getTokenName(int tokenNumber) {
 	char *name = "";
 
 	switch(tokenNumber) {
-		case NO_TOKEN: name = "No token"; break;
-		case TOKEN_INTEGER: name = "Integer"; break;
-		case TOKEN_BOOLEAN: name = "Boolean"; break;
-		case TOKEN_STRING: name = "String"; break;
-		case TOKEN_CURLY_OPEN: name = "Curly {"; break;
-		case TOKEN_CURLY_CLOSE: name = "Curly }"; break;
-		case TOKEN_SQUARE_OPEN: name = "Square ["; break;
-		case TOKEN_SQUARE_CLOSE: name = "Square ]"; break;
-		case TOKEN_COLON: name = "Colon ':'"; break;
-		case TOKEN_COMMA: name = "Comma ','"; break;
-		default:
-			name = "WTF token";
-			printf("tokenNumber: %d\n", tokenNumber);
-			break;
+		case NO_TOKEN:           name = "NO TOKEN "; break;
+		case TOKEN_INTEGER:      name = "Integer  "; break;
+		case TOKEN_BOOLEAN:      name = "Boolean  "; break;
+		case TOKEN_STRING:       name = "String   "; break;
+		case TOKEN_CURLY_OPEN:   name = "Curly {  "; break;
+		case TOKEN_CURLY_CLOSE:  name = "Curly }  "; break;
+		case TOKEN_SQUARE_OPEN:  name = "Square [ "; break;
+		case TOKEN_SQUARE_CLOSE: name = "Square ] "; break;
+		case TOKEN_COLON:        name = "Colon ':'"; break;
+		case TOKEN_COMMA:        name = "Comma ','"; break;
 	}
 
 	return name;

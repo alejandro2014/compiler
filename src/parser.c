@@ -8,6 +8,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
     int lengthToken = 0;
     TRANSITION *currentTransition;
     char *trimmedToken;
+    int eof = 0;
 
     TOKEN *token = (TOKEN *) malloc(sizeof(TOKEN));
     memset(token, 0, sizeof(TOKEN));
@@ -18,6 +19,8 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 
         if(currentChar == 0x00) {
             currentStatus = STATUS_RETURNING;
+            printf("EOF reached\n");
+            eof = 1;
             continue;
         }
 
@@ -32,6 +35,8 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
         currentStatus = currentTransition->nextStatus;
     }  
 
+	if(eof) return NULL;
+	
     token->type = currentTransition->tokenReturned;
     
     if(token->type == TOKEN_STRING || token->type == TOKEN_INTEGER || token->type == TOKEN_BOOLEAN) {

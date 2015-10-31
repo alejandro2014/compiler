@@ -17,10 +17,14 @@ int main(int argn, char **argv) {
 
 	while(!finish) {
 		token = parse(table, string);
+		if(token == NULL) {
+			finish = 1;
+			continue;
+		}
+		
 		printf("[%s]", getTokenName(token->type));
 
 		if(token->content) printf(" %s", token->content);
-		if(token->type == NO_TOKEN) finish = 1;
 
 		printf("\n");
 	}
@@ -59,6 +63,10 @@ char *getTokenName(int tokenNumber) {
 		case TOKEN_SQUARE_CLOSE: name = "Square ]"; break;
 		case TOKEN_COLON: name = "Colon ':'"; break;
 		case TOKEN_COMMA: name = "Comma ','"; break;
+		default:
+			name = "WTF token";
+			printf("tokenNumber: %d\n", tokenNumber);
+			break;
 	}
 
 	return name;

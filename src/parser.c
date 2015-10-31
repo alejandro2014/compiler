@@ -14,6 +14,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 
     while(currentStatus != STATUS_RETURNING) {
         currentChar = *(text + (offset++));
+        //printf(">>> [%d] %c %x\n", offset - 1, currentChar, currentChar);
 
         if(currentChar == 0x00) {
             currentStatus = STATUS_RETURNING;
@@ -49,8 +50,7 @@ TOKEN *parse(TRANS_TABLE *transTable, char *text) {
 char *getContentToken(char *text, int iniPos, int endPos, int tokenType) {
     switch(tokenType) {
         case TOKEN_STRING:
-            iniPos++;
-            endPos-=2;
+			moveOffsetString(text, &iniPos, &endPos);
             break;
         case TOKEN_INTEGER:
             moveOffsetInteger(text, &endPos);
@@ -61,21 +61,38 @@ char *getContentToken(char *text, int iniPos, int endPos, int tokenType) {
     char *content = (char *) malloc(sizeof(char) * (lengthToken + 1));
     
     memset(content, 0, lengthToken + 1);
+    
+    //printf("cp - ini: %d %c, end: %d %c, length: %d\n", iniPos, *(text + iniPos), endPos, *(text + endPos), lengthToken);
     memcpy(content, text + iniPos, lengthToken);
     
     return content;
+}
+
+void moveOffsetString(char *string, int *iniPos, int *endPos) {
+	int initial = *iniPos - 1;
+	int final = *endPos;
+	
+	while(*(string + initial) != '\"') {
+		//printf("r1 - [%d] %c %x\n", initial, *(string + initial), *(string + initial));
+		initial++;
+	}
+	
+	while(*(string + final) != '\"') {
+		//printf("r2 - [%d] %c %x\n", final, *(string + final), *(string + final));
+		final--;
+	}
+	
+	*iniPos = initial + 1;
+	*endPos = final - 1;
 }
 
 void moveOffsetInteger(char *string, int *offset) {
     int currentOffset = *offset;
     char currentChar = *(string + currentOffset);
     
-    //printf(">> Current char: %c %x>\n", currentChar, currentChar);
-    
     while(currentChar < 0x30 || currentChar > 0x39) {
         currentOffset--;
         currentChar = *(string + currentOffset);
-        //printf(">> Current char: %c %x>\n", currentChar, currentChar);
     }
     
     *offset = currentOffset;

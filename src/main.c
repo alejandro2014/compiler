@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include "parser.h"
+#include "transitionsTable.h"
+
+typedef struct {
+	int currentToken;
+	TOKEN tokens[100];
+} PARSER;
 
 char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
+void addTokenToParser(TOKEN *token, PARSER *parser);
+PARSER *initParser();
 
 int main(int argn, char **argv) {
 	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
@@ -11,6 +19,7 @@ int main(int argn, char **argv) {
 	TRANS_TABLE *table = newTransitionsTable();
 	TOKEN *token = NULL;
 	int finish = 0;
+	PARSER *parser = initParser();
 
 	printf("%s\n", string);
 	addTransitions(table);
@@ -22,11 +31,29 @@ int main(int argn, char **argv) {
 			continue;
 		}
 		
-		printf("[%s] %s\n", getTokenName(token->type), token->content);
+		addTokenToParser(token, parser);
 	}
 
 	deleteTransitionsTable(table);
 	return 0;
+}
+
+void addTokenToParser(TOKEN *token, PARSER *parser) {
+	int tokenNo = parser->currentToken;
+	TOKEN currentToken = *(parser->tokens + tokenNo);
+	
+	currentToken.type = token->type;
+	currentToken.content = token->content;
+	
+	printf("[%s] %s\n", getTokenName(currentToken.type), currentToken.content);
+	
+	parser->currentToken++;
+}
+
+PARSER *initParser() {
+	PARSER *parser = (PARSER *) malloc(sizeof(PARSER));
+	memset(parser, 0, sizeof(PARSER));
+	return parser;
 }
 
 char *loadFile(char *path) {

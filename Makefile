@@ -9,11 +9,10 @@ OPTC=-g
 OPTL=
 
 OBJ1=main
-OBJ2=parser
-OBJ3=parserTest
+OBJ2=lexer
+OBJ3=parser
 OBJ4=transitionsTable
-OBJ5=transitionsTableTest
-OBJ= ${OBJPATH}/${OBJ1}.o ${OBJPATH}/${OBJ2}.o ${OBJPATH}/${OBJ3}.o ${OBJPATH}/${OBJ4}.o ${OBJPATH}/${OBJ5}.o
+OBJ= ${OBJPATH}/${OBJ1}.o ${OBJPATH}/${OBJ2}.o ${OBJPATH}/${OBJ3}.o ${OBJPATH}/${OBJ4}.o
 
 ${BINPATH}/${EXE}: ${OBJ}
 	${CC} ${OBJ} -o ${BINPATH}/${EXE} ${OPTL}

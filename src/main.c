@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "parser.h"
+#include "lexer.h"
 #include "transitionsTable.h"
 
 typedef struct {

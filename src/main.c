@@ -4,13 +4,14 @@
 
 typedef struct {
 	int currentToken;
-	TOKEN tokens[100];
+	TOKEN *tokens[100];
 } PARSER;
 
 char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
 void addTokenToParser(TOKEN *token, PARSER *parser);
 PARSER *initParser();
+void deleteParser(PARSER *parser);
 
 int main(int argn, char **argv) {
 	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
@@ -34,18 +35,36 @@ int main(int argn, char **argv) {
 		addTokenToParser(token, parser);
 	}
 
+	deleteParser(parser);
 	deleteTransitionsTable(table);
 	return 0;
 }
 
+//TODO Not very well defined function
+void deleteParser(PARSER *parser) {
+	TOKEN *currentToken;
+	int i;
+	
+	for(i = 0; i < 100; i++) {
+		currentToken = parser->tokens[i];
+		
+		if(currentToken) {
+			if(currentToken->content) {
+				free(currentToken->content);
+			}
+			
+			free(currentToken);
+		}
+	}
+	
+	free(parser);
+}
+
 void addTokenToParser(TOKEN *token, PARSER *parser) {
 	int tokenNo = parser->currentToken;
-	TOKEN currentToken = *(parser->tokens + tokenNo);
+	parser->tokens[tokenNo] = token;
 	
-	currentToken.type = token->type;
-	currentToken.content = token->content;
-	
-	printf("[%s] %s\n", getTokenName(currentToken.type), currentToken.content);
+	printf("[%s] %s\n", getTokenName(token->type), token->content);
 	
 	parser->currentToken++;
 }

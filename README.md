@@ -11,7 +11,6 @@ The first part of the lexical analysis is completed. The program is able to read
 
 ## Roadmap
 
-* Solve the memory leaks
 * Intensive testing so errors can be detected and fixed
 * Creation of the parser, generation of dynamic menus from a JSON file
 * Building of a library

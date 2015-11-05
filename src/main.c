@@ -1,32 +1,72 @@
 #include <stdio.h>
 #include "lexer.h"
+#include "parser.h"
 #include "transitionsTable.h"
-
-typedef struct {
-	int currentToken;
-	TOKEN *tokens[100];
-} PARSER;
 
 char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
-void addTokenToParser(TOKEN *token, PARSER *parser);
-PARSER *initParser();
-void deleteParser(PARSER *parser);
+void parseInput(char *inputString);
+
+typedef struct {
+	char *nameRule;
+	char *names[10];
+} GRAMMAR_RULE;
+
+typedef struct {
+	GRAMMAR_RULE rules[15];
+} GRAMMAR;
 
 int main(int argn, char **argv) {
 	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
 	char *fileName = "/home/alejandro/programs/compiler/testdata/menus.json";
 	char *string = loadFile(fileName);
+	
+	GRAMMAR *grammar = createGrammar();
+	parseInput(string);
+	
+	return 0;
+}
+
+void createGrammar() {
+	GRAMMAR *grammar = (GRAMMAR *) malloc(sizeof(GRAMMAR));
+	memset(grammar, 0, sizeof(GRAMMAR));
+	
+	addGrammarRule(grammar, "object", "{ }");
+	addGrammarRule(grammar, "object", "{ members }");
+	addGrammarRule(grammar, "members", "pair");
+	addGrammarRule(grammar, "members", "pair , members");
+	addGrammarRule(grammar, "pair", "string : value");
+	
+	addGrammarRule(grammar, "array", "[ ]");
+	addGrammarRule(grammar, "array", "[ elements ]");
+	addGrammarRule(grammar, "elements", " value");
+	addGrammarRule(grammar, "elements", "value , elements");
+	addGrammarRule(grammar, "value", "string");
+	
+	addGrammarRule(grammar, "value", "number");
+	addGrammarRule(grammar, "value", "object");
+	addGrammarRule(grammar, "value", "array");
+	addGrammarRule(grammar, "value", "true");
+	addGrammarRule(grammar, "value", "false");
+	
+	return grammar;
+}
+
+void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rules) {
+	
+}
+
+void parseInput(char *inputString) {
 	TRANS_TABLE *table = newTransitionsTable();
+	PARSER *parser = initParser();
 	TOKEN *token = NULL;
 	int finish = 0;
-	PARSER *parser = initParser();
-
-	printf("%s\n", string);
+	
 	addTransitions(table);
-
+	printf("%s\n", inputString);
+	
 	while(!finish) {
-		token = parse(table, string);
+		token = parse(table, inputString);
 		if(token == NULL) {
 			finish = 1;
 			continue;
@@ -37,42 +77,6 @@ int main(int argn, char **argv) {
 
 	deleteParser(parser);
 	deleteTransitionsTable(table);
-	return 0;
-}
-
-//TODO Not very well defined function
-void deleteParser(PARSER *parser) {
-	TOKEN *currentToken;
-	int i;
-	
-	for(i = 0; i < 100; i++) {
-		currentToken = parser->tokens[i];
-		
-		if(currentToken) {
-			if(currentToken->content) {
-				free(currentToken->content);
-			}
-			
-			free(currentToken);
-		}
-	}
-	
-	free(parser);
-}
-
-void addTokenToParser(TOKEN *token, PARSER *parser) {
-	int tokenNo = parser->currentToken;
-	parser->tokens[tokenNo] = token;
-	
-	printf("[%s] %s\n", getTokenName(token->type), token->content);
-	
-	parser->currentToken++;
-}
-
-PARSER *initParser() {
-	PARSER *parser = (PARSER *) malloc(sizeof(PARSER));
-	memset(parser, 0, sizeof(PARSER));
-	return parser;
 }
 
 char *loadFile(char *path) {

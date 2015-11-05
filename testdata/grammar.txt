@@ -1,0 +1,91 @@
+{
+    "menus": [
+      {
+        "id": "newTerrainMenu",
+        "x": 200,
+        "y": 150,
+        "width": 150,
+        "height": 100,
+        "title": "New terrain",
+        "show": true,
+        "buttons": [
+            {
+                "id": "newTerrainButtonOk",
+                "x": 20,
+                "y": 20,
+                "width": 50,
+                "height": 10,
+                "text": "Ok"
+                "action": "createTerrainAction"
+            },
+            {
+                "id": "newTerrainButtonCancel",
+                "x": 60,
+                "y": 20,
+                "width": 50,
+                "height": 10,
+                "text": "Cancel"
+                "action": "createTerrainCancelAction"
+            }
+        ],
+        "checkboxes": [
+            {
+                "group": "checkboxesNewTerrain",
+                "checked": true,
+                ...
+            },
+            ...
+        ]
+      }
+    ]
+}
+
+Lexical analyzer
+----------------
+alpha = A-Z|a-z
+digit = 0-9
+space = \s
+string = \"[alpha|digit|space]*\"
+number = [1-9][digit]+
+boolean = true|false
+open_curly = {
+close_curly = }
+open_square = [
+close_square = ]
+colon = :
+comma = ,
+
+Parser
+------
+
+object = {}
+object = { members } 
+members = pair
+members = pair , members
+pair = string : value
+array = []
+array = [ elements ]
+elements = value
+elements = value , elements
+value = string
+value = number
+value = object
+value = array
+value = true
+value = false
+
+1 object = {}
+2 object = { members } 
+3 members = pair
+4 members = pair , members
+5 pair = string : value
+6 array = []
+7 array = [ elements ]
+8 elements = value
+9 elements = value , elements
+10 value = string
+11 value = number
+12 value = object
+13 value = array
+14 value = true
+15 value = false

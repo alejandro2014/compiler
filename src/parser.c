@@ -31,7 +31,7 @@ void addTokenToParser(TOKEN *token, PARSER *parser) {
 	int tokenNo = parser->currentToken;
 	parser->tokens[tokenNo] = token;
 	
-	printf("[%s] %s\n", getTokenName(token->type), token->content);
+	//printf("[%s] %s\n", getTokenName(token->type), token->content);
 	
 	parser->currentToken++;
 }

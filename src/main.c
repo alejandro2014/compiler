@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "lexer.h"
 #include "parser.h"
 #include "transitionsTable.h"
@@ -8,15 +9,29 @@ char *getTokenName(int tokenNumber);
 void parseInput(char *inputString);
 
 typedef struct {
-	char *nameRule;
-	char *names[10];
+	char *ruleName;
+	char **names;
 } GRAMMAR_RULE;
 
 typedef struct {
+	int ruleNo;
 	GRAMMAR_RULE rules[15];
 } GRAMMAR;
 
+GRAMMAR *createGrammar();
+void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rules);
+
 int main(int argn, char **argv) {
+	char string1[] = "This is a string to delimit";
+	char *newToken = "";
+	
+	newToken = strtok(string1, " ");
+	printf("%s\n", newToken);
+	while((newToken = strtok(NULL, " ")) != NULL) {
+		printf("%s\n", newToken);
+	}
+	
+	return 0;
 	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
 	char *fileName = "/home/alejandro/programs/compiler/testdata/menus.json";
 	char *string = loadFile(fileName);
@@ -27,7 +42,7 @@ int main(int argn, char **argv) {
 	return 0;
 }
 
-void createGrammar() {
+GRAMMAR *createGrammar() {
 	GRAMMAR *grammar = (GRAMMAR *) malloc(sizeof(GRAMMAR));
 	memset(grammar, 0, sizeof(GRAMMAR));
 	
@@ -53,7 +68,12 @@ void createGrammar() {
 }
 
 void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rules) {
+	/*int position = grammar->ruleNo;
+	GRAMMAR_RULE *rule = grammar->rules[position];
 	
+	rule->nameRule = ruleName;
+	
+	grammar->ruleNo++;*/
 }
 
 void parseInput(char *inputString) {

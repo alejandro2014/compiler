@@ -17,7 +17,7 @@ typedef struct {
 	GRAMMAR_RULE *rules;
 } GRAMMAR;
 
-GRAMMAR *createGrammar();
+GRAMMAR *createGrammar(char *grammarPath);
 void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rulesString);
 char **allocateRules(char *string);
 char *getRuleName(char *string, int initialPos, int finalPos);

@@ -7,24 +7,24 @@
 
 char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
-void parseInput(char *inputString);
+void parseInput(char *inputString, TRANS_TABLE *table, GRAMMAR *grammar);
+
+//char *INPUT_PATH_MAC = "/Users/alejandro/programs/compiler/testdata/menus.json";
+char *INPUT_PATH_LINUX = "/home/alejandro/programs/compiler/testdata/menus.json";
+char *GRAMMAR_PATH =  "/home/alejandro/programs/compiler/testdata/grammar.txt"
 
 int main(int argn, char *argv[]) {
-	GRAMMAR *grammar1 = createGrammar();
+	char *string = loadFile(INPUT_PATH_LINUX);
 	
-	return 0;
-	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
-	char *fileName = "/home/alejandro/programs/compiler/testdata/menus.json";
-	char *string = loadFile(fileName);
+	TRANS_TABLE *transTable = newTransitionsTable();
+	GRAMMAR *grammar = createGrammar(GRAMMAR_PATH);
 	
-	GRAMMAR *grammar = createGrammar();
-	parseInput(string);
+	parseInput(string, transTable, grammar);
 	
 	return 0;
 }
 
-void parseInput(char *inputString) {
-	TRANS_TABLE *table = newTransitionsTable();
+void parseInput(char *inputString, TRANS_TABLE *table, GRAMMAR *grammar) {
 	PARSER *parser = initParser();
 	TOKEN *token = NULL;
 	int finish = 0;

@@ -1,6 +1,6 @@
 #include "grammar.h"
 
-GRAMMAR *createGrammar() {
+GRAMMAR *createGrammar(char *grammarPath) {
     int numberOfRules = 15;
 	GRAMMAR *grammar = (GRAMMAR *) malloc(sizeof(GRAMMAR));
 	memset(grammar, 0, sizeof(GRAMMAR));
@@ -80,4 +80,8 @@ char *getRuleName(char *string, int initialPos, int finalPos) {
     *(ruleComponent + lengthString - 1) = 0x00;
     
     return ruleComponent;
+}
+
+GRAMMAR_RULE lookupRule() {
+    
 }

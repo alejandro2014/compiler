@@ -1,12 +1,12 @@
 #include "grammar.h"
 
 GRAMMAR *createGrammar() {
-    countWords("This is a nice string");
-	/*GRAMMAR *grammar = (GRAMMAR *) malloc(sizeof(GRAMMAR));
+    int numberOfRules = 15;
+	GRAMMAR *grammar = (GRAMMAR *) malloc(sizeof(GRAMMAR));
 	memset(grammar, 0, sizeof(GRAMMAR));
     
-    grammar->rules = (GRAMMAR_RULE *) malloc(MAX_RULES * sizeof(GRAMMAR_RULE));
-    memset(grammar->rules, 0, MAX_RULES * sizeof(GRAMMAR_RULE));
+    grammar->rules = (GRAMMAR_RULE *) malloc(numberOfRules * sizeof(GRAMMAR_RULE));
+    memset(grammar->rules, 0, numberOfRules * sizeof(GRAMMAR_RULE));
 	
 	addGrammarRule(grammar, "object", "{ }");
 	addGrammarRule(grammar, "object", "{ members }");
@@ -26,47 +26,50 @@ GRAMMAR *createGrammar() {
 	addGrammarRule(grammar, "value", "true");
 	addGrammarRule(grammar, "value", "false");
 	
-	return grammar;*/
-    return NULL;
+	return grammar;
 }
 
-/*void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rules) {
+void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rulesString) {
 	int position = grammar->ruleNo;
 	GRAMMAR_RULE *rule = grammar->rules + position;
 	
 	rule->ruleName = ruleName;
-    rule->rules = allocateRules(rules);
+    rule->names = allocateRules(rulesString);
+    
+    int i = 0;
+    
+    printf("%s -> ", rule->ruleName);
+    for(i = 0; i < 15; i++) {
+        if(*(rule->names + i))
+            printf("%s ", *(rule->names + i));
+    }
+    printf("\n");
 	
 	grammar->ruleNo++;
 }
 
-char *allocateRules(char *string) {
-    int wordsNo = countWords(string);
-    char **rules = (char *) malloc(wordsNo * sizeof(char *));
-    memset(rules, 0, wordsNo * sizeof(char *));
-    int i;
-    
-    for(i = 0; i < wordsNo; i++) {
-    
-    }
-}*/
-
-void countWords(char *string) {
+char **allocateRules(char *string) {
     int length = strlen(string);
     int spacesNo = 0;
     int i, j;
     int iniPos = 0;
     int finPos = 0;
     char *rule = NULL;
+    int ruleNumber = 0;
+    
+    char **rules = (char **) malloc(MAX_RULES * sizeof(GRAMMAR_RULE *));
+    memset(rules, 0, MAX_RULES * sizeof(GRAMMAR_RULE *));
     
     for(i = 0; i < length + 1; i++) {
         if(*(string + i) == 0x20 || *(string + i) == 0x00) {
             finPos = i;
-            rule = getRuleName(string, iniPos, finPos);
-            printf("%s\n", rule);
+            *(rules + ruleNumber) = getRuleName(string, iniPos, finPos);
             iniPos = finPos + 1;
+            ruleNumber++;
         }
     }
+    
+    return rules;
 }
 
 char *getRuleName(char *string, int initialPos, int finalPos) {

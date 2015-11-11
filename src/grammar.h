@@ -18,7 +18,8 @@ typedef struct {
 } GRAMMAR;
 
 GRAMMAR *createGrammar();
-void countWords(char *string);
+void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rulesString);
+char **allocateRules(char *string);
 char *getRuleName(char *string, int initialPos, int finalPos);
 
 #endif

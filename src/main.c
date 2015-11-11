@@ -9,16 +9,7 @@ char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
 void parseInput(char *inputString);
 
-int main(int argn, char **argv) {
-	/*char string1[] = "This is a string to delimit";
-	char *newToken = "";
-	
-	newToken = strtok(string1, " ");
-	printf("%s\n", newToken);
-	while((newToken = strtok(NULL, " ")) != NULL) {
-		printf("%s\n", newToken);
-	}*/
-	
+int main(int argn, char *argv[]) {
 	GRAMMAR *grammar1 = createGrammar();
 	
 	return 0;

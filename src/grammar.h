@@ -19,6 +19,6 @@ typedef struct {
 
 GRAMMAR *createGrammar();
 void countWords(char *string);
-char *newWord(char *string, int initialPos, int finalPos);
+char *getRuleName(char *string, int initialPos, int finalPos);
 
 #endif

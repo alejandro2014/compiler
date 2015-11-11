@@ -57,25 +57,24 @@ void countWords(char *string) {
     int i, j;
     int iniPos = 0;
     int finPos = 0;
+    char *rule = NULL;
     
     for(i = 0; i < length + 1; i++) {
         if(*(string + i) == 0x20 || *(string + i) == 0x00) {
             finPos = i;
-            
-            newWord(string, iniPos, finPos);
-            
+            rule = getRuleName(string, iniPos, finPos);
+            printf("%s\n", rule);
             iniPos = finPos + 1;
         }
     }
 }
 
-char *newWord(char *string, int initialPos, int finalPos) {
-    int j;
+char *getRuleName(char *string, int initialPos, int finalPos) {
+    int lengthString = (finalPos - initialPos + 1) * sizeof(char);
+    char *ruleComponent = (char *) malloc(lengthString);
     
-    for(j = initialPos; j < finalPos; j++) {
-        printf("%c", *(string + j));
-    }
+    memcpy(ruleComponent, string + initialPos, lengthString - 1);
+    *(ruleComponent + lengthString - 1) = 0x00;
     
-    printf(">\n");
-    return NULL;
+    return ruleComponent;
 }

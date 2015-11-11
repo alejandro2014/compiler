@@ -3,33 +3,23 @@
 #include "lexer.h"
 #include "parser.h"
 #include "transitionsTable.h"
+#include "grammar.h"
 
 char *loadFile(char *path);
 char *getTokenName(int tokenNumber);
 void parseInput(char *inputString);
 
-typedef struct {
-	char *ruleName;
-	char **names;
-} GRAMMAR_RULE;
-
-typedef struct {
-	int ruleNo;
-	GRAMMAR_RULE rules[15];
-} GRAMMAR;
-
-GRAMMAR *createGrammar();
-void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rules);
-
 int main(int argn, char **argv) {
-	char string1[] = "This is a string to delimit";
+	/*char string1[] = "This is a string to delimit";
 	char *newToken = "";
 	
 	newToken = strtok(string1, " ");
 	printf("%s\n", newToken);
 	while((newToken = strtok(NULL, " ")) != NULL) {
 		printf("%s\n", newToken);
-	}
+	}*/
+	
+	GRAMMAR *grammar1 = createGrammar();
 	
 	return 0;
 	//char *fileName = "/Users/alejandro/programs/compiler/testdata/menus.json";
@@ -40,40 +30,6 @@ int main(int argn, char **argv) {
 	parseInput(string);
 	
 	return 0;
-}
-
-GRAMMAR *createGrammar() {
-	GRAMMAR *grammar = (GRAMMAR *) malloc(sizeof(GRAMMAR));
-	memset(grammar, 0, sizeof(GRAMMAR));
-	
-	addGrammarRule(grammar, "object", "{ }");
-	addGrammarRule(grammar, "object", "{ members }");
-	addGrammarRule(grammar, "members", "pair");
-	addGrammarRule(grammar, "members", "pair , members");
-	addGrammarRule(grammar, "pair", "string : value");
-	
-	addGrammarRule(grammar, "array", "[ ]");
-	addGrammarRule(grammar, "array", "[ elements ]");
-	addGrammarRule(grammar, "elements", " value");
-	addGrammarRule(grammar, "elements", "value , elements");
-	addGrammarRule(grammar, "value", "string");
-	
-	addGrammarRule(grammar, "value", "number");
-	addGrammarRule(grammar, "value", "object");
-	addGrammarRule(grammar, "value", "array");
-	addGrammarRule(grammar, "value", "true");
-	addGrammarRule(grammar, "value", "false");
-	
-	return grammar;
-}
-
-void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rules) {
-	/*int position = grammar->ruleNo;
-	GRAMMAR_RULE *rule = grammar->rules[position];
-	
-	rule->nameRule = ruleName;
-	
-	grammar->ruleNo++;*/
 }
 
 void parseInput(char *inputString) {

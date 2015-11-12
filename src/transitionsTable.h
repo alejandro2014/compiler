@@ -37,8 +37,8 @@ typedef struct {
 	int numberOfStatus;
 	int numberOfChars;
 	TRANSITION *transitions;
-  int maxStateAlloc;
-  int offset;
+	int maxStateAlloc;
+    int offset;
 	int takenStatusNo;
 } TRANS_TABLE;
 

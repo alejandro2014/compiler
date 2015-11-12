@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-TOKEN *parse(TRANS_TABLE *transTable, char *text) {
+TOKEN *getToken(TRANS_TABLE *transTable, char *text) {
     int currentStatus = STATUS_INITIAL;
     int offset = transTable->offset;
     char currentChar;

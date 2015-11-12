@@ -82,6 +82,27 @@ char *getRuleName(char *string, int initialPos, int finalPos) {
     return ruleComponent;
 }
 
-GRAMMAR_RULE lookupRule() {
+void lookupRule(char *ruleName, GRAMMAR *grammar, GRAMMAR_RULE **rulesOutput) {
+    GRAMMAR_RULE *currentRule = NULL;
+    int numberOfRules = grammar->ruleNo;
+    int currentRulePos = 0;
+    int i;
     
+    printf("**Looking for rule %s\n", ruleName);
+    for(i = 0; i < numberOfRules; i++) {
+        currentRule = grammar->rules + i;
+        
+        if(!strcmp(currentRule->ruleName, ruleName)) {
+            *(rulesOutput + (currentRulePos++)) = currentRule;
+            printf("Added %s ->", ruleName);
+            
+            int j;
+            
+            for(j = 0; j < 3; j++) {
+                printf(" %s", *(currentRule->names + j));
+            }
+            
+            printf("\n");
+        }
+    }
 }

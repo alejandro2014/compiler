@@ -1,6 +1,6 @@
 #include "transitionsTable.h"
 
-TRANS_TABLE *newTransitionsTable() {
+TRANS_TABLE *createTransitionsTable(char *lexerInputFile) {
     TRANS_TABLE *table = (TRANS_TABLE *) malloc(sizeof(TRANS_TABLE));
     int transitionsNo = NUMBER_CHARS * NUMBER_STATUS;
     TRANSITION *transitions = (TRANSITION *) malloc(sizeof(TRANSITION) * transitionsNo);
@@ -18,6 +18,8 @@ TRANS_TABLE *newTransitionsTable() {
     table->maxStateAlloc = 0;
     table->offset = 0;
     table->takenStatusNo = 1;
+    
+    addTransitions(table);
 
     return table;
 }

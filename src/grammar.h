@@ -21,5 +21,6 @@ GRAMMAR *createGrammar(char *grammarPath);
 void addGrammarRule(GRAMMAR *grammar, char *ruleName, char *rulesString);
 char **allocateRules(char *string);
 char *getRuleName(char *string, int initialPos, int finalPos);
+void lookupRule(char *ruleName, GRAMMAR *grammar, GRAMMAR_RULE **rulesOutput);
 
 #endif

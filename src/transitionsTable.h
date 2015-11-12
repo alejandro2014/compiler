@@ -42,7 +42,7 @@ typedef struct {
 	int takenStatusNo;
 } TRANS_TABLE;
 
-TRANS_TABLE *newTransitionsTable();
+TRANS_TABLE *createTransitionsTable(char *lexerInputFile);
 void deleteTransitionsTable(TRANS_TABLE *table);
 
 void addTransitions(TRANS_TABLE *transTable);

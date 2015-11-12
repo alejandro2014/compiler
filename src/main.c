@@ -7,6 +7,8 @@
 #include "helper.h"
 
 void parseInput(char *inputString, TRANS_TABLE *table, GRAMMAR *grammar);
+void lexicalAnalysis(PARSER *parser, char *string, TRANS_TABLE *table);
+void syntacticAnalysis(PARSER *parser, GRAMMAR *grammar);
 
 //char *INPUT_PATH_MAC = "/Users/alejandro/programs/compiler/testdata/menus.json";
 char *INPUT_PATH_LINUX = "/home/alejandro/programs/compiler/testdata/menus.json";
@@ -32,8 +34,43 @@ int main(int argn, char *argv[]) {
 void parseInput(char *inputString, TRANS_TABLE *table, GRAMMAR *grammar) {
 	PARSER *parser = initParser();
 	
-	getParserTokens(parser, inputString, table);
+	lexicalAnalysis(parser, inputString, table);
+	syntacticAnalysis(parser, grammar);
 	
 	deleteParser(parser);
 	deleteTransitionsTable(table);
+}
+
+void lexicalAnalysis(PARSER *parser, char *string, TRANS_TABLE *table) {
+	TOKEN *token = NULL;
+	int finish = 0;
+	
+	printf("[INFO] *** Lexical analysis ***\n");
+	printf("[INFO] Input string:\n%s\n", string);
+	
+	while(!finish) {
+		token = getToken(table, string);
+		if(token == NULL) {
+			finish = 1;
+			continue;
+		}
+		
+		addTokenToParser(token, parser);
+	}
+	
+	parser->tokensNo = parser->currentToken;
+}
+
+void syntacticAnalysis(PARSER *parser, GRAMMAR *grammar) {
+	TOKEN **tokens = parser->tokens;
+	TOKEN *token = NULL;
+	int tokensNo = parser->tokensNo;
+	int i;
+	
+	printf("[INFO] *** Syntactic analysis ***\n");
+	
+	for(i = 0; i < tokensNo; i++) {
+		token = *(tokens + i);
+		printf("Read token [%s] %s\n", getTokenName(token->type), token->content);
+	}
 }

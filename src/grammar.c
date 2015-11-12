@@ -8,18 +8,16 @@ GRAMMAR *createGrammar(char *grammarPath) {
     grammar->rules = (GRAMMAR_RULE *) malloc(numberOfRules * sizeof(GRAMMAR_RULE));
     memset(grammar->rules, 0, numberOfRules * sizeof(GRAMMAR_RULE));
 	
+    addGrammarRule(grammar, "object", "{ members }");
 	addGrammarRule(grammar, "object", "{ }");
-	addGrammarRule(grammar, "object", "{ members }");
+    addGrammarRule(grammar, "members", "pair , members");
 	addGrammarRule(grammar, "members", "pair");
-	addGrammarRule(grammar, "members", "pair , members");
 	addGrammarRule(grammar, "pair", "string : value");
-	
-	addGrammarRule(grammar, "array", "[ ]");
 	addGrammarRule(grammar, "array", "[ elements ]");
-	addGrammarRule(grammar, "elements", "value");
+	addGrammarRule(grammar, "array", "[ ]");
 	addGrammarRule(grammar, "elements", "value , elements");
+	addGrammarRule(grammar, "elements", "value");
 	addGrammarRule(grammar, "value", "string");
-	
 	addGrammarRule(grammar, "value", "number");
 	addGrammarRule(grammar, "value", "object");
 	addGrammarRule(grammar, "value", "array");

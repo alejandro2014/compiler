@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "transitionsTable.h"
 #include "grammar.h"
+#include "helper.h"
 
 void parseInput(char *inputString, TRANS_TABLE *table, GRAMMAR *grammar);
 
@@ -30,21 +31,9 @@ int main(int argn, char *argv[]) {
 
 void parseInput(char *inputString, TRANS_TABLE *table, GRAMMAR *grammar) {
 	PARSER *parser = initParser();
-	TOKEN *token = NULL;
-	int finish = 0;
 	
-	printf("%s\n", inputString);
+	getParserTokens(parser, inputString, table);
 	
-	while(!finish) {
-		token = getToken(table, inputString);
-		if(token == NULL) {
-			finish = 1;
-			continue;
-		}
-		
-		addTokenToParser(token, parser);
-	}
-
 	deleteParser(parser);
 	deleteTransitionsTable(table);
 }

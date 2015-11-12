@@ -28,6 +28,23 @@ void deleteParser(PARSER *parser) {
 	free(parser);
 }
 
+void getParserTokens(PARSER *parser, char *string, TRANS_TABLE *table) {
+	TOKEN *token = NULL;
+	int finish = 0;
+	
+	printf("[INFO] Parsing string:\n%s\n", string);
+	
+	while(!finish) {
+		token = getToken(table, string);
+		if(token == NULL) {
+			finish = 1;
+			continue;
+		}
+		
+		addTokenToParser(token, parser);
+	}	
+}
+
 void addTokenToParser(TOKEN *token, PARSER *parser) {
 	int tokenNo = parser->currentToken;
 	parser->tokens[tokenNo] = token;
